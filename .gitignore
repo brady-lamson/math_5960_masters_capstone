@@ -1,3 +1,10 @@
+# Contains secrets like api keys
+.Renviron
+
+# Other
+.DS_STORE
+.Rprofile
+
 # History files
 .Rhistory
 .Rapp.history
