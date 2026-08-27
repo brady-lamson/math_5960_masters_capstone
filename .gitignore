@@ -4,6 +4,9 @@
 # Crop data layer directory, way too big for github
 2023_30m_cdls/
 
+# Raster images for this project are too large
+*.tif
+
 # Other
 .DS_STORE
 .Rprofile

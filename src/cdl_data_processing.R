@@ -6,7 +6,7 @@ library(raster)
 library(sf)
 library(tigris)
 
-path = "2023_30m_cdls/2023_30m_cdls.tif"
+path = "data/2023_30m_cdls/2023_30m_cdls.tif"
 cdl <- raster::raster(path)
 
 # Load iowa data, align CRS and convert to data type for Raster
@@ -25,5 +25,5 @@ iowa_cdl <- raster::crop(cdl, iowa) |>
 data_dictionary <- levels(iowa_cdl)[[1]][, c("ID", "Class_Names")]
 
 # Write files
-write.csv(data_dictionary, file = "data_dictionary.csv", row.names = FALSE)
-raster::writeRaster(iowa_cdl, filename = "2023_30m_cdls_iowa.GTiff", format="GTiff")
+write.csv(data_dictionary, file = "data/cdl_data_dictionary.csv", row.names = FALSE)
+raster::writeRaster(iowa_cdl, filename = "data/2023_30m_cdls_iowa.GTiff", format="GTiff")
