@@ -1,7 +1,7 @@
 library(tidycensus)
 library(dplyr)
 
-tidycensus::census_api_key("790cac60174b03ecb62eb40d5348234755b39206")
+tidycensus::census_api_key(Sys.getenv("CENSUS_API_KEY"))
 
 # Find relevant variables from ACS 5 year estimate
 vars <- load_variables(
