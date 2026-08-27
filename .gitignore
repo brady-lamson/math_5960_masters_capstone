@@ -1,6 +1,9 @@
 # Contains secrets like api keys
 .Renviron
 
+# Crop data layer directory, way too big for github
+2023_30m_cdls/
+
 # Other
 .DS_STORE
 .Rprofile
