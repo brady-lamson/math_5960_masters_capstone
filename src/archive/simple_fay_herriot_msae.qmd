@@ -1,0 +1,6 @@
+---
+title: "simple_fay_herriot_msae"
+author: "Brady Lamson"
+format: typst
+---
+

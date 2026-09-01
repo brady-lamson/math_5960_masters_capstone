@@ -1,0 +1,131 @@
+---
+title: "learning-fay-herriot"
+format: typst
+---
+
+# Overview
+
+The overall goal of this notebook is to begin tinkering with the Fay-Herriot model using only the ACS data. The package `emdi` seems to have functions for this. So I hope to gain some insight into how this all works by running code and tinkering with the relevant tools.
+
+This notebook will focus on the simplest implementations of the fay-herriot. That being the intercept only no correlation version.
+
+## Imports
+
+```{r}
+library(emdi)
+library(dplyr)
+library(sf)
+library(ggplot2)
+library(tidyr)
+library(patchwork)
+library(stringr)
+```
+
+## Data Ingestion and Processing
+
+```{r}
+acs_df <- sf::st_read("../data/acs/2023_5_year_acs.shp") %>%
+    mutate(variance = sd^2) %>%
+    filter(var_name == "agriculture_industry")
+head(acs_df)
+```
+
+```{r}
+# fh wants a pure dataframe. For the simplest FH model we don't care about the spatial aspect anyway.
+simple_df <- sf::st_drop_geometry(acs_df)
+
+simple_df
+```
+
+```{r}
+simple_df %>%
+    select("name", "est", "sd", "variance") %>%
+    summary()
+```
+
+```{r}
+plot1 <- simple_df %>%
+    ggplot() +
+    geom_density(aes(x=est))
+
+plot2 <- simple_df %>%
+    ggplot() +
+    geom_density(aes(x=sd))
+
+plot1 + plot2
+```
+
+```{r}
+plot1 <- ggplot(simple_df) +
+    geom_point(aes(x=est, y=sd)) + 
+    ggtitle("Direct estimate vs sigma")
+
+plot2 <- ggplot(simple_df) +
+    geom_point(aes(x=est, y=(sd / est))) +
+    ggtitle("Direct estimate vs proportional sigma")
+
+plot1 + plot2
+
+# ggplot2::ggsave(plot=plot1+plot2, filename = "../images/estimate_sd_scatterplot.png", height=5, width=10)
+```
+
+Thought: We see here that the sd of an estimate grows with its value. This behavior is fine really, each county has its own variance so this trend isn't concerning. What's interesting is that uncertainty itself doesn't grow with estimate value. Proportionally, the standard deviation gets smaller as the estimates get larger. This makes sense! Larger counts, more data, more precision. The smaller counties inherently have more variability to them even if the sd on its own looks smaller at first glance.
+
+## Modeling
+
+```{r}
+fh_simple <- emdi::fh(
+    fixed = est ~ 1,
+    domains="name",
+    vardir = "variance",
+    combined_data=simple_df,
+    correlation="no", # change to 'spatial' later perhaps
+    maxit=100,  # default
+    tol=0.0001 # default
+)
+
+fh_simple
+```
+
+```{r}
+summary(fh_simple)
+```
+```{r}
+fh_simple$model
+```
+
+
+## Examining FH estimates
+
+```{r}
+fh_df <- fh_simple$ind
+new_df <- dplyr::left_join(simple_df, fh_df, by=c("name"="Domain")) %>%
+    rename_with(tolower) %>%
+    select(
+        "name",
+        "est",
+        "fh",
+        "sd"
+    ) %>%
+    mutate(delta=est-fh)
+```
+
+```{r}
+new_df %>%
+    dplyr::arrange(est)
+```
+
+```{r}
+max_lim <- max(c(new_df$est, new_df$fh)) + 100
+limits <- c(0, max_lim)
+ggplot(new_df) +
+    geom_point(aes(x=est, y=fh)) +
+    geom_abline(intercept=0, slope=1) +
+    xlim(limits) +
+    ylim(limits)
+```
+
+```{r}
+plot(new_df$est, type="o", col="blue", pch=16)
+points(new_df$fh, type="o", col="red", pch=17)
+```

@@ -1,6 +1,7 @@
 library(tidycensus)
 library(dplyr)
 library(sf)
+library(stringr)
 
 tidycensus::census_api_key(Sys.getenv("CENSUS_API_KEY"))
 
@@ -20,8 +21,9 @@ acs_df <- tidycensus::get_acs(
         year=2023
     ) %>%
     mutate(
-           variable_name = dplyr::if_else(variable == "C24070_001", "all_industries", "agriculture_industry"),
-           sd = moe/1.645 # This is the way to convert from moe to sd given by the census bureau
+        NAME=stringr::str_replace(NAME, pattern=" County, Iowa$", replacement = ""), # Clean up redundant county names
+        variable_name = dplyr::if_else(variable == "C24070_001", "all_industries", "agriculture_industry"),
+        sd = moe/1.645 # This is the way to convert from moe to sd given by the census bureau
     ) %>%
     # Rename to short names to support ESRI column name character limits (10 characters)
     rename(
@@ -33,7 +35,7 @@ acs_df <- tidycensus::get_acs(
 
 path <- "data/acs/2023_5_year_acs.shp"
 sf::st_write(
-    obj=acs_df, 
-    dsn=path, 
+    obj=acs_df,
+    dsn=path,
     delete_dsn=TRUE
 )
