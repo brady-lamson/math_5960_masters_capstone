@@ -39,3 +39,30 @@ sf::st_write(
     dsn=path,
     delete_dsn=TRUE
 )
+
+# Save the proportion version of the dataset
+acs_proportion_df <- sf::st_read("data/acs/2023_5_year_acs.shp") %>%
+    select(-c(var, moe)) %>% # Remove columns that break the pivot
+    pivot_wider(names_from = var_name, values_from=c(est, sd)) %>%
+    mutate(
+        est_proportion = est_agriculture_industry / est_all_industries,
+        sd_proportion = sqrt(sd_agriculture_industry^2 - (est_proportion^2 * sd_all_industries)^2) / est_all_industries,
+        variance_proportion = sd_proportion^2
+    ) %>%
+    rename(
+        geom=geometry,
+        est_prop=est_proportion,
+        sd=sd_proportion,
+        var=variance_proportion,
+        est_agri=est_agriculture_industry,
+        est_all=est_all_industries,
+        sd_agri=sd_agriculture_industry,
+        sd_all=sd_all_industries
+    )
+
+path <- "data/acs/2023_5_year_acs_proportion_response.shp"
+sf::st_write(
+    obj=acs_proportion_df,
+    dsn=path,
+    delete_dsn=TRUE
+)
