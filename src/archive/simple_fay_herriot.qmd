@@ -129,3 +129,43 @@ ggplot(new_df) +
 plot(new_df$est, type="o", col="blue", pch=16)
 points(new_df$fh, type="o", col="red", pch=17)
 ```
+
+## Making the response a proportion
+
+To adjust for population size here I choose to make the response a proportion. The denominator here is the total population of the set containing all industries of working civilians over 16 years of age.
+
+As this is also from the ACS we need to account for its own separate MOE. Thankfully the bureau has guidance on this situation, where the numerator is a subset of the denominator.
+
+$$
+\text{Let } P=A/B \\
+SE(P) = \frac{1}{B} \cdot \sqrt{SE(A)^2 - (P^2 \cdot SE(B)^2)}
+$$
+
+```{r}
+acs_proportion_df <- sf::st_read("../data/acs/2023_5_year_acs.shp") %>%
+    select(-c(var, moe)) %>% # Remove columns that break the pivot
+    pivot_wider(names_from = var_name, values_from=c(est, sd)) %>%
+    mutate(
+        est_proportion = est_agriculture_industry / est_all_industries,
+        sd_proportion = sqrt(sd_agriculture_industry^2 - (est_proportion^2 * sd_all_industries)^2) / est_all_industries,
+        variance_proportion = sd_proportion^2
+    )
+
+acs_proportion_df
+```
+
+```{r}
+# Worth county manual test
+A <- 678
+B <- 21781
+SEA <- 85.71
+VARA <- SEA^2
+SEB <- 378.72
+VARB <- SEB^2
+P <- A/B
+
+
+
+(1 / B) * sqrt(SEA^2 - (P^2 * SEB^2))
+```
+
