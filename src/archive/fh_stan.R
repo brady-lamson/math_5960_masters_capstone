@@ -63,9 +63,9 @@ lm(y ~ 1)
 # Verified this works, need to generate values for shrinkage and fitted values maybe? 
 stanmod = "
 data {
-    int<lower=0> N;
-    vector[N] y;
-    vector<lower=0>[N] D;
+    int<lower=0> N; // number of observations
+    vector[N] y;    // vector of response
+    vector<lower=0>[N] D;  // vector of domain sample variances
 }
 parameters {
     real alpha;
@@ -73,7 +73,7 @@ parameters {
     vector[N] u;
 }
 model {
-    u ~ normal(0, sqrt(A));
+    u ~ normal(0, sqrt(A));        // stan normal is parameterized with sd not var
     y ~ normal(alpha + u, sqrt(D));
 }
 "
