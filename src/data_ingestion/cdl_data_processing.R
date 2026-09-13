@@ -1,29 +1,18 @@
-# Take enormous 2023 Crop Data Layer (CDL) data set and filter down to only Iowa's data
-# Link for source data: https://www.nass.usda.gov/Research_and_Science/Cropland/Release/index.php
-# Data: 8/23/2026
-
-library(raster)
 library(sf)
 library(tigris)
+library(terra) # Using this over Raster as its a newer more well behaved package
 
 path = "data/2023_30m_cdls/2023_30m_cdls.tif"
-cdl <- raster::raster(path)
+cdl <- terra::rast(path)
 
-# Load iowa data, align CRS and convert to data type for Raster
+# Load iowa data, align CRS and convert to data type for Terra
 iowa <- tigris::states(year = 2023) |>
     tigris::filter_state("iowa") |>
     sf::st_transform(sf::st_crs(cdl)) |>
-    as("Spatial")
+    terra::vect()
 
-# Crop before masking simplify masking. More efficient this way.
-# Crop brings us down to a rectangular simplification of iowa
-# Mask fully aligns the polygons
-iowa_cdl <- raster::crop(cdl, iowa) |>
-    raster::mask(iowa)
+iowa_cdl <- terra::crop(cdl, iowa, mask=TRUE) # This crops out a square region, mask=TRUE makes everything out of the county borders NA
+data_dict <- levels(iowa_cdl)[[1]] # [[1]] needed due to nesting behavior from this output, not needed but saved for documentation
 
-# Preserve the value mapping as its lost on write to .tiff
-data_dictionary <- levels(iowa_cdl)[[1]][, c("ID", "Class_Names")]
-
-# Write files
-write.csv(data_dictionary, file = "data/cdl_data_dictionary.csv", row.names = FALSE)
-raster::writeRaster(iowa_cdl, filename = "data/2023_30m_cdls_iowa.GTiff", format="GTiff")
+terra::writeRaster(iowa_cdl, "data/2023_30m_cdl_iowa_terra.tif")
+write.csv(data_dict, "data/cdl_data_dictionary.csv", row.names = FALSE)
