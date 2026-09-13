@@ -26,16 +26,28 @@ posterior_predictions <- brms::posterior_epred(fit)
 sae_estimates <- colMeans(posterior_predictions)
 sae_sd <- apply(posterior_predictions, 2, sd)
 
-# Compare estimated proportions ---
-limlow <- min(acs_df$est_prop, sae_estimates)
-limhigh <- max(acs_df$est_prop, sae_estimates)
-limits <- c(limlow, limhigh)
-plot(x=acs_df$est_prop, y=sae_estimates, xlim=limits, ylim=limits)
-abline(a=0,b=1)
+# SAVE OUTPUT - Thoughts:
+# I want the fh estimates and their distributions. Probably from the posterior predictions object
+# The fit$fit object gives the random effects and distribution of that too, want to keep that around. 
+# Perhaps two dataframes per model in brms? Idk, maybe just one big table is fine
+messy_fit_df <- as.data.frame(fit$fit)
+# For sae and sd, i want MORE than just the mean and sd. I want the quantiles, whole distribution! 
+# same exact set as fit$fit for consistency
 
-# Compare standard deviations ---
-limlow <- min(acs_df$sd, sae_sd)
-limhigh <- max(acs_df$sd, sae_sd)
-limits <- c(limlow, limhigh)
-plot(x=acs_df$sd, y=sae_sd, xlim=limits, ylim=limits)
-abline(a=0,b=1)
+
+run_plots <- FALSE
+if (run_plots) {
+    # Compare estimated proportions ---
+    limlow <- min(acs_df$est_prop, sae_estimates)
+    limhigh <- max(acs_df$est_prop, sae_estimates)
+    limits <- c(limlow, limhigh)
+    plot(x=acs_df$est_prop, y=sae_estimates, xlim=limits, ylim=limits)
+    abline(a=0,b=1)
+    
+    # Compare standard deviations ---
+    limlow <- min(acs_df$sd, sae_sd)
+    limhigh <- max(acs_df$sd, sae_sd)
+    limits <- c(limlow, limhigh)
+    plot(x=acs_df$sd, y=sae_sd, xlim=limits, ylim=limits)
+    abline(a=0,b=1)
+}
