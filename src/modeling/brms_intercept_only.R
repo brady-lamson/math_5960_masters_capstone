@@ -6,14 +6,24 @@ library(sf)
 
 acs_df <- sf::st_read("data/acs/2023_5_year_acs_proportion_response.shp")
 
-fit <- brms::brm(
-    est_prop | se(sd, sigma=FALSE) ~ 1 + (1 | name), # document the heck out of this row to justify it
-    data=acs_df,
-    family=gaussian(),
-    seed=100,
-    iter=10000,
-    warmup=5000
-)
+path <- "models/intercept_only.rds"
+if (!file.exists(path)) {
+    print(paste0("Model file not found at ", path, " fitting model instead ---"))
+    fit <- brms::brm(
+        est_prop | se(sd, sigma=FALSE) ~ 1 + (1 | name), # document the heck out of this row to justify it
+        data=acs_df,
+        family=gaussian(),
+        seed=100,
+        iter=10000,
+        warmup=5000
+    )
+    print(paste0("Model fit successfully, writing rds to", path))
+    saveRDS(fit, path)
+} else {
+    print("Model located, reading rds")
+    fit <- readRDS(path)
+}
+
 
 print(fit$fit, digits=5)
 print(summary(fit, priors=TRUE, mc_se=TRUE), digits=5)
@@ -25,15 +35,6 @@ plot(fit$fit)
 posterior_predictions <- brms::posterior_epred(fit)
 sae_estimates <- colMeans(posterior_predictions)
 sae_sd <- apply(posterior_predictions, 2, sd)
-
-# SAVE OUTPUT - Thoughts:
-# I want the fh estimates and their distributions. Probably from the posterior predictions object
-# The fit$fit object gives the random effects and distribution of that too, want to keep that around. 
-# Perhaps two dataframes per model in brms? Idk, maybe just one big table is fine
-messy_fit_df <- as.data.frame(fit$fit)
-# For sae and sd, i want MORE than just the mean and sd. I want the quantiles, whole distribution! 
-# same exact set as fit$fit for consistency
-
 
 run_plots <- FALSE
 if (run_plots) {
