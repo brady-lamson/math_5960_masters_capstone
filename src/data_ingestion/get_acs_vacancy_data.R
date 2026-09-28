@@ -5,6 +5,7 @@ library(dplyr)
 library(sf)
 library(stringr)
 library(tidyr)
+source("src/R/transformations.R")
 
 tidycensus::census_api_key(Sys.getenv("CENSUS_API_KEY"))
 
@@ -53,7 +54,11 @@ acs_proportion_df <- sf::st_read(path) %>%
     mutate(
         est_proportion = est_vacant_housing / est_total_housing,
         sd_proportion = sqrt(sd_vacant_housing^2 - (est_proportion^2 * sd_total_housing)^2) / est_total_housing,
-        variance_proportion = sd_proportion^2
+        variance_proportion = sd_proportion^2,
+        # LOGIT Transformations ---
+        est_logit = logit(est_proportion),
+        sd_logit = logit_sd(est_proportion, sd_proportion),
+        var_logit = sd_logit^2
     ) %>%
     rename(
         geom=geometry,

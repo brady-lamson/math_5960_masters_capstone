@@ -5,9 +5,10 @@ library(dplyr)
 library(sf)
 library(readr)
 library(spdep)
+source("src/R/collect_metrics.R")
 
 acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
-neighbor_list <- spdep::poly2nb(acs_df, queen=TRUE, row.names=acs_df$geoid)
+neighbor_list <- spdep::poly2nb(acs_df, queen=TRUE, row.names=acs_df$name)
 neighbor_matrix <- spdep::nb2mat(neighbours = neighbor_list, style="B")
 covariate_df <- readr::read_csv("data/cdl_covariates.csv") %>%
     mutate(
@@ -22,7 +23,7 @@ path <- "models/housing/cdl_and_icar.rds"
 if (!file.exists(path)) {
     print(paste0("Model file not found at ", path, " fitting model instead ---"))
     fit <- brms::brm(
-        est_prop | se(sd_prop, sigma=FALSE) ~ prop_corn_soy + car(M, type="icar", gr=geoid),
+        est_logit | se(sd_logit, sigma=FALSE) ~ prop_corn_soy + car(M, type="icar", gr=name),
         data=acs_df,
         data2=list(M=neighbor_matrix),
         family=gaussian(),
@@ -49,10 +50,8 @@ table(np$Parameter)
 sum(np$Parameter == "divergent__" & np$Value == 1)
 sum(np$Parameter == "treedepth__" & np$Value >= 10)
 
-# Get estimated proportions from the posterior distribution
-posterior_predictions <- brms::posterior_epred(fit)
-sae_estimates <- colMeans(posterior_predictions)
-sae_sd <- apply(posterior_predictions, 2, sd)
+pred_df <- catalog_predictions(fit, "icar_only", logit_response = TRUE)
+head(pred_df)
 
 run_plots <- FALSE
 if (run_plots) {
@@ -70,3 +69,4 @@ if (run_plots) {
     plot(x=acs_df$sd, y=sae_sd, xlim=limits, ylim=limits)
     abline(a=0,b=1)
 }
+

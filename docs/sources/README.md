@@ -15,3 +15,11 @@
 - Source date: n/a
 - Author: Louise Litrico
 - Description/Use: Helpful resource for learning BRMS package and a nice review of bayesian modeling workflows. Even includes random and fixed effects. 
+
+## Improving Precision in Small Area Proportion Estimation Using Logit Transformation
+
+- Link[Direct](pdf/Improving-Precision-in-Small-Area-Proportion-Estimation.pdf)
+- Date captured: 2026-09-27
+- Source date: 2026-01-05
+- Author(s): Cucu Sumarni, Muhammad Alif, et al
+- Description: A paper going into detail on the application of the logit transformation for proportion based SAE with the FH model. 
