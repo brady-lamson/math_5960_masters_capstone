@@ -30,23 +30,3 @@ print(fit$fit, digits=5)
 print(summary(fit, priors=TRUE, mc_se=TRUE), digits=5)
 
 plot(fit)
-
-pred_df <- catalog_predictions(fit, "intercept_only", logit_response = TRUE)
-head(pred_df)
-
-run_plots <- TRUE
-if (run_plots) {
-    # Compare estimated proportions ---
-    limlow <- min(acs_df$est_prop, sae_estimates)
-    limhigh <- max(acs_df$est_prop, sae_estimates)
-    limits <- c(limlow, limhigh)
-    plot(x=acs_df$est_prop, y=sae_estimates, xlim=limits, ylim=limits)
-    abline(a=0,b=1)
-    
-    # Compare standard deviations ---
-    limlow <- min(acs_df$sd, sae_sd)
-    limhigh <- max(acs_df$sd, sae_sd)
-    limits <- c(limlow, limhigh)
-    plot(x=acs_df$sd, y=sae_sd, xlim=limits, ylim=limits)
-    abline(a=0,b=1)
-}

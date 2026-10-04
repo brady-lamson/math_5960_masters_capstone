@@ -14,7 +14,7 @@ path <- "models/housing/icar_only.rds"
 if (!file.exists(path)) {
     print(paste0("Model file not found at ", path, " fitting model instead ---"))
     fit <- brms::brm(
-        est_logit | se(sd_logit, sigma=FALSE) ~ car(M, type="icar", gr=name), # document the heck out of this row to justify it
+        est_logit | se(sd_logit, sigma=FALSE) ~ 1 + car(M, type="icar", gr=name), # document the heck out of this row to justify it
         data=acs_df,
         data2=list(M=neighbor_matrix),
         family=gaussian(),
@@ -32,27 +32,4 @@ if (!file.exists(path)) {
 print(fit$fit, digits=5)
 print(summary(fit, priors=TRUE, mc_se=TRUE), digits=5)
 
-run_plots <- TRUE
-
-if (run_plots) {
-    plot(fit)
-}
-
-pred_df <- catalog_predictions(fit, "icar_only", logit_response = TRUE)
-head(pred_df)
-
-if (run_plots) {
-    # Compare estimated proportions ---
-    limlow <- min(acs_df$est_prop, sae_estimates)
-    limhigh <- max(acs_df$est_prop, sae_estimates)
-    limits <- c(limlow, limhigh)
-    plot(x=acs_df$est_prop, y=sae_estimates, xlim=limits, ylim=limits)
-    abline(a=0,b=1)
-    
-    # Compare standard deviations ---
-    limlow <- min(acs_df$sd, sae_sd)
-    limhigh <- max(acs_df$sd, sae_sd)
-    limits <- c(limlow, limhigh)
-    plot(x=acs_df$sd_prop, y=sae_sd, xlim=limits, ylim=limits)
-    abline(a=0,b=1)
-}
+plot(fit)
