@@ -50,7 +50,7 @@ pred_df <- purrr::reduce(list(model0_df, model1_df, model2_df, model3_df, model4
     left_join(true_values, by="county") %>%
     mutate(
         residual=estimate-true_prop,
-        true_value_captured=dplyr::if_else((true_prop>=lower) | (true_prop <= upper), TRUE, FALSE),
+        true_value_captured=dplyr::if_else((true_prop>=lower) & (true_prop <= upper), TRUE, FALSE),
         interval_width=upper-lower
     )
     

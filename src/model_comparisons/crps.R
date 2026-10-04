@@ -2,10 +2,8 @@ library(loo)
 library(brms)
 library(dplyr)
 library(sf)
-library(purrr)
 library(readr)
 source("src/R/collect_metrics.R")
-# source("src/R/transformations.R")
 
 acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
 covariate_df <- readr::read_csv("data/cdl_covariates.csv") %>%
@@ -33,3 +31,11 @@ mod1_crps <- get_crps(intercept_only, y)
 mod2_crps <- get_crps(icar_only, y)
 mod3_crps <- get_crps(cdl_no_icar, y)
 mod4_crps <- get_crps(cdl_and_icar, y)
+
+crps_means <- lapply(list(mod1_crps, mod2_crps, mod3_crps, mod4_crps), mean) %>% unlist()
+crps_df <- tibble(
+    model=c("int_only", "icar_only", "cdl_only", "cdl_icar"),
+    crps=num(crps_means, digits=10)
+) %>%
+    arrange(crps)
+
