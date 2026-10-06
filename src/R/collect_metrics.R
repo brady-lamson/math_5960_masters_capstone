@@ -54,3 +54,39 @@ catalog_predictions <- function(model, name, true_vector, ci_prob=0.95, logit_re
     
     return(pred_df)
 }
+
+
+get_metric_ranking <- function(df, metric, print_table=TRUE) {
+    # TODO: ALLOW SWAPPING BETWEEN MAX AND MIN
+    # KINDA DIDNT THINK ABOUT ALL MY RELEVANT METRICS BEING SMALL IS GOOD
+    rank <- df %>%
+        select(county, model_name, .data[[metric]]) %>%
+        group_by(county) %>%
+        mutate(rank=min_rank(.data[[metric]])) 
+    
+    if (print_table) {
+        print("Number of counties each model wins")
+        rank1 <- rank %>% slice_min(rank, n=1)
+        print(table(rank1$model_name))
+    }
+    
+    return(rank)
+}
+
+get_ranking_summary <- function(rank_df, metric) {
+    summary_df <- rank_df %>%
+        sf::st_drop_geometry() %>%
+        group_by(model_name) %>%
+        summarise(
+            metric_mean=mean(.data[[metric]]),
+            metric_min=min(.data[[metric]]),
+            metric_median=median(.data[[metric]]),
+            metric_max=max(.data[[metric]]),
+            rank_mean=mean(rank),
+            rank_min=min(rank),
+            rank_median=median(rank),
+            rank_max=max(rank)
+        )
+    
+    return(summary_df)
+}
