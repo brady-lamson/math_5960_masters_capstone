@@ -1,9 +1,11 @@
 library(terra)
+library(readr)
+source("src/R/cdl_helpers.R")
 
-path = "data/2023_30m_cdl_iowa_terra.tif"
+path = "data/cdl/2023_30m_cdl_iowa_terra.tif"
 cdl <- terra::rast(path)
 
-counties <- tigris::counties(state = "iowa") |>
+counties <- tigris::counties(year=2020, state = "iowa") |>
     sf::st_transform(sf::st_crs(cdl)) |>
     terra::vect()
 
@@ -20,12 +22,8 @@ plot(counties, add=TRUE, border="black")
 
 # --- Frequency eda for all of Iowa
 # General eda for Iowa, crop frequency analysis ---
-pixels <- terra::size(cdl)
-frequencies <- freq(cdl)
-frequencies_df <- frequencies[c("value", "count")] %>%
-    dplyr::tibble() %>%
-    mutate(percentage = count / pixels * 100) %>%
-    dplyr::arrange(dplyr::desc(percentage))
+frequencies_df <- cdl_frequency(cdl)
+readr::write_csv(frequencies_df, "data/cdl/iowa_cdl_frequency.csv")
 
 frequencies_df %>%
     filter(percentage > 0.5) %>%
@@ -41,6 +39,5 @@ frequencies_df %>%
         y = "Percentage"
     )
 
-# Figure out grouping by county ---
 plot(cdl)
 lines(counties, col="white")
