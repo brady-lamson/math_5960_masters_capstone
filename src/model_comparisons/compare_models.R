@@ -1,7 +1,6 @@
 library(brms)
 library(dplyr)
 library(sf)
-library(purrr)
 library(readr)
 source("src/R/collect_metrics.R")
 source("src/R/transformations.R")
@@ -39,14 +38,15 @@ model0_df <- df %>%
         interval_width=upper-lower,
         crps=NA
     ) %>%
-    sf::st_drop_geometry()
+    sf::st_drop_geometry() %>%
+    tibble()
 model1_df <- catalog_predictions(intercept_only, "intercept_only", true_vector=df$prop_vac)
 model2_df <- catalog_predictions(icar_only, "icar_only", true_vector=df$prop_vac)
 model3_df <- catalog_predictions(cdl_no_icar, "cdl_only", true_vector=df$prop_vac)
 model4_df <- catalog_predictions(cdl_and_icar, "cdl_and_icar", true_vector=df$prop_vac)
 
 # COMBINE MODEL METRIC DATAFRAMES, CREATE ADDITIONAL METRICS ---
-pred_df <- purrr::reduce(list(model0_df, model1_df, model2_df, model3_df, model4_df), union) %>%
+pred_df <- dplyr::bind_rows(list(model0_df, model1_df, model2_df, model3_df, model4_df)) %>%
     # Reorder columns for my own preference
     select(
         model_name,

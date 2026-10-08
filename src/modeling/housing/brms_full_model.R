@@ -10,7 +10,7 @@ source("src/R/collect_metrics.R")
 acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
 neighbor_list <- spdep::poly2nb(acs_df, queen=TRUE, row.names=acs_df$name)
 neighbor_matrix <- spdep::nb2mat(neighbours = neighbor_list, style="B")
-covariate_df <- readr::read_csv("data/cdl_covariates.csv") %>%
+covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
     mutate(
         geoid = as.character(geoid),
         prop_corn_soy = perc_corn_soy / 100

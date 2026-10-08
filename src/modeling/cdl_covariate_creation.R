@@ -7,15 +7,15 @@ library(tidyr) # For pivoting
 source("src/R/cdl_helpers.R")
 
 options(scipen=999) # disable scientific notation
-path = "data/cdl/2023_30m_cdl_iowa_terra.tif"
+path = "data/cdl/2020_30m_cdl_iowa_terra.tif"
 cdl <- terra::rast(path)
 
-counties <- tigris::counties(state = "iowa") %>%
+counties <- tigris::counties(year=2020, state = "iowa") %>%
     sf::st_transform(sf::st_crs(cdl)) %>%
     dplyr::select(GEOID, NAME) %>%
     terra::vect()
 
-path <- "data/cdl/county_cdl_aggregation.csv"
+path <- "data/cdl/county_cdl_frequency.csv"
 if (!file.exists(path)) {
     # Steps: Enter county. Crop/mask cdl down to county. Aggregate summary stats. Populate dataframe.
     # Create empty df to bind rows to. Slow but it works.
@@ -69,5 +69,6 @@ counties_joined <- terra::merge(counties, covariate_df, by.x=c("GEOID", "NAME"),
 # Save datasets ---
 # I'll be saving both the counties and covariate datasets even though both contain the info
 # As the csv will be easier for modeling and the raster will be useful for plotting
-terra::writeVector(counties_joined, "data/iowa_aggregated/iowa_counties_aggregated.shp", overwrite=TRUE)
-readr::write_csv(covariate_df, "data/iowa_counties_aggregated.csv")
+filename <- "cdl_covariates"
+terra::writeVector(counties_joined, paste0("data/cdl/cdl_covariates_with_geometry/", filename, ".shp"), overwrite=TRUE)
+readr::write_csv(covariate_df, paste0("data/cdl/", filename, ".csv"))

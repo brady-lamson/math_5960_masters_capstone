@@ -7,7 +7,7 @@ library(dplyr)
 library(readr)
 source("src/R/cdl_helpers.R")
 
-path = "data/cdl/2023_30m_cdls/2023_30m_cdls.tif"
+path = "data/cdl/2020_30m_cdls/2020_30m_cdls.tif"
 cdl <- terra::rast(path)
 
 # --- Frequency eda for all of USA
