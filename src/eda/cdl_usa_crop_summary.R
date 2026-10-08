@@ -7,7 +7,7 @@ library(dplyr)
 library(readr)
 source("src/R/cdl_helpers.R")
 
-path = "data/2023_30m_cdls/2023_30m_cdls.tif"
+path = "data/cdl/2023_30m_cdls/2023_30m_cdls.tif"
 cdl <- terra::rast(path)
 
 states <- tigris::states(year=2020) |>
@@ -16,6 +16,8 @@ states <- tigris::states(year=2020) |>
     sf::st_transform(sf::st_crs(cdl)) |>
     terra::vect()
 
+cdl <- terra::crop(cdl, states, mask=TRUE)
+
 # --- Frequency eda for all of USA
 frequency_df <- cdl_frequency(cdl)
-readr::write_csv(frequencies_df, "data/usa_cdl_frequency.csv")
+readr::write_csv(frequencies_df, "data/cdl/usa_cdl_frequency.csv")
