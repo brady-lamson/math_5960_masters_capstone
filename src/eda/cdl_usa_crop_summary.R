@@ -10,14 +10,6 @@ source("src/R/cdl_helpers.R")
 path = "data/cdl/2023_30m_cdls/2023_30m_cdls.tif"
 cdl <- terra::rast(path)
 
-states <- tigris::states(year=2020) |>
-    # CDL is only for the 48 contiguous states, gotta filter out other territories here as well
-    dplyr::filter(!STUSPS %in% c("AK", "HI", "PR", "GU", "VI", "MP", "AS")) |>
-    sf::st_transform(sf::st_crs(cdl)) |>
-    terra::vect()
-
-cdl <- terra::crop(cdl, states, mask=TRUE)
-
 # --- Frequency eda for all of USA
 frequency_df <- cdl_frequency(cdl)
-readr::write_csv(frequencies_df, "data/cdl/usa_cdl_frequency.csv")
+readr::write_csv(frequency_df, "data/cdl/usa_cdl_frequency.csv")
