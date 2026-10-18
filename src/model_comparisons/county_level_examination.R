@@ -7,7 +7,7 @@ library(ggplot2)
 acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
 acs_df["proportional_sd"] = acs_df$sd_prop / acs_df$est_prop
 
-covariate_df <- readr::read_csv("data/cdl_covariates.csv") %>%
+covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
     mutate(
         geoid = as.character(geoid),
         prop_corn_soy = perc_corn_soy / 100
@@ -42,7 +42,7 @@ plot(acs_df$est_prop, acs_df$proportional_sd)
 # What are the highest residual acs estimates?
 top_errors <- pred_df %>%
     filter(model_name == "acs") %>%
-    select(county, estimate, sd, true_prop, residual) %>%
+    select(county, estimate, sd, true_value, residual) %>%
     mutate(error_magnitude = abs(residual)) %>%
     arrange(desc(error_magnitude)) %>%
     head(10)
@@ -56,7 +56,7 @@ acs_df %>%
 
 # Dig into prediction df
 pred_df %>%
-    ggplot(aes(x=true_prop, y=estimate, color=model_name)) +
+    ggplot(aes(x=true_value, y=estimate, color=model_name)) +
     geom_point(alpha=0.5) +
     geom_abline(slope=1)
 
@@ -78,7 +78,7 @@ compare_to_acs <- pred_df %>%
     select(model_name, county, estimate, sd, residual, delta_residual, delta_sd)
 
 compare_to_acs %>%
-    inner_join(top_errors %>% select(county, estimate, true_prop), by="county") %>%
+    inner_join(top_errors %>% select(county, estimate, true_value), by="county") %>%
     arrange(county) %>% 
     View()
 

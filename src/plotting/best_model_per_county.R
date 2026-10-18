@@ -13,7 +13,8 @@ pred_df <- readr::read_csv("data/model_outputs/housing/all_model_predictions.csv
 df <- sf::read_sf("data/acs/housing/2020_5_year_acs_proportion_response.shp") %>%
     select(name, geometry) %>%
     rename(county=name) %>%
-    left_join(pred_df, by="county")
+    left_join(pred_df, by="county") #%>%
+    # filter(!(model_name %in% c("cdl_only", "cdl_and_icar")) )
 
 # Set palette info
 n_models = length(unique(df$model_name))
