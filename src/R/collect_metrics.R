@@ -90,3 +90,47 @@ get_ranking_summary <- function(rank_df, metric) {
     
     return(summary_df)
 }
+
+multi_bayes_factor <- function(fit1, fit2, fit1name, fit2name, n=5) {
+    bf <- replicate(
+        n,
+        brms::bayes_factor(fit1, fit2)$bf
+    )
+    
+    df <- tibble(
+        fitA = fit1name,
+        fitB = fit2name,
+        bf_mean = mean(bf),
+        bf_sd = sd(bf),
+        bf_min = min(bf),
+        bf_max = max(bf)
+    )
+    
+    return(df)
+}
+
+bayes_factor_all_combinations <- function(fit_list, n=5) {
+    pairs <- combn(names(models), 2, simplify=FALSE)
+    bf_df <- tibble(
+        fitA = character(),
+        fitB = character(),
+        bf_mean = numeric(),
+        bf_sd = numeric(),
+        bf_min = numeric(),
+        bf_max = numeric()
+    )
+    
+    for (pair in pairs) {
+        print(paste0("Comparing Models: <", pair[1], "> and <", pair[2], ">"))
+        temp_df <- multi_bayes_factor(
+            fit1=models[[pair[1]]], 
+            fit2=models[[pair[2]]], 
+            fit1name=pair[1], 
+            fit2name=pair[2], 
+            n=n
+        )
+        bf_df <- union(bf_df, temp_df)
+    }
+    
+    return(bf_df)
+}
