@@ -1,0 +1,11 @@
+== Data Sources
+
+=== American Community Survey
+
+=== 2020 Decennial Census of Population and Housing
+
+The second source of data for this project comes from the 2020 Decennial Census. Mandated by the Constitution of the United States, the census is carried out every 10 years by the U.S. Census Bureau and "determines the number of people living in the United States" @censusAbout. Though the primary purpose of the census is to distribute seats in the U.S. House of Representatives @censusAbout, it is also arguably the most reliable source of high level demographic and housing data for the entire country. As such, it is used as the source of truth in this project. Every single model, the ACS included, will be compared to the values provided by the 2020 Decennial Census to evaluate the quality of predictions. It is important to note that, though treated as the source of truth, that the values provided by the U.S. census are not perfect. An analysis performed by the U.S. Government Accountability Office in 2024 found 14 states exhibiting statistically significant net coverage errors in the 2020 census, though Iowa is absent from this list @censusUncertainty. Accounting for this uncertainty is outside the scope of this project, so all values provided by the census are treated as the true values. 
+
+=== NASS Crop Data Layer
+
+The third source of data for this project is known as the Crop Data Layer, or CDL. According to the USGS, the CDL, created by the USDA National Agricultural Statistics Service (NASS), is "an annual raster, geo-referenced, crop-specific land cover data layer produced using satellite imagery and extensive agricultural ground reference data" @cdlUSGS. The USDA website carries direct downloads to every annual data layer going back to 2008. The year used for this analysis is the same as the decennial census, 2020. This dataset contains per-pixel cropland classifications at a 30-meter resolution for the entire country. The classifications were done using a machine learning model trained primarily on the Farm Service Agency (FSA) Common Land Unit (CLU) data, though some states incorporate additional auxiliary data from other agencies and institutions @cdlUSGS. This data within the region of Iowa is used to create the spatial covariate for the Fay-Herriot model. 

@@ -1,7 +1,7 @@
 = Introduction
 
-== Background
+#include "intro/background.typ"
 
-== Methods
+#include "intro/methods.typ"
 
-== Data Sources
+#include "intro/data_sources.typ"

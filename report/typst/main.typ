@@ -25,4 +25,4 @@
 #include "intro.typ"
 #include "results.typ"
 #include "conclusion.typ"
-#include "appendix.typ"
+#bibliography("references.bib")
