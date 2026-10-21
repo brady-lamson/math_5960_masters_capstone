@@ -21,7 +21,14 @@ full_df <- acs_df %>%
     left_join(covariate_df, by="geoid") %>%
     left_join(census_df, by=c("geoid", "name"))
 
-pred_df <- readr::read_csv("data/model_outputs/all_model_predictions.csv")
+pred_df <- readr::read_csv("data/model_outputs/all_model_predictions.csv") %>%
+    filter(!(model_name %in% c("cdl_only", "cdl_and_icar")) ) %>%
+    mutate(
+        error_magnitude = abs(residual),
+        prop_error_magnitude = abs(proportional_residual)
+    ) %>%
+    left_join(acs_df %>% select("name", "geometry"), join_by(county == name)) %>%
+    sf::st_as_sf()
 
 # High level sd summary
 summary(acs_df$sd_prop)
@@ -40,21 +47,62 @@ plot(acs_df$est_prop, acs_df$proportional_sd)
 
 # PREDICTION DF -------
 print("What are the highest residual acs estimates?")
-top_errors <- pred_df %>%
+acs_errors <- pred_df %>% 
     filter(model_name == "acs") %>%
-    select(county, estimate, sd, true_value, residual) %>%
-    mutate(
-        error_magnitude = abs(residual),
-    ) %>%
-    arrange(desc(error_magnitude)) %>%
-    head(10)
+    select(county, estimate, sd, true_value, residual, proportional_residual, error_magnitude, prop_error_magnitude, geometry)
 
-# Show these counties on the map ---
-acs_df %>%
-    select(name, geometry) %>%
-    left_join(top_errors %>% select(county, error_magnitude), by=join_by(name == county)) %>%
-    select(error_magnitude) %>%
-    plot()
+n <- 10
+top_errors <- acs_errors %>%
+    slice_max(error_magnitude, n=n)
+
+print("What are the highest proportional residual acs estimates?")
+top_errors_prop <- acs_errors %>%
+    slice_max(prop_error_magnitude, n=n)
+
+acs_errors <- acs_errors %>%
+    mutate(
+        top_10_error = county %in% top_errors$county,
+        top_10_prop_error = county %in% top_errors_prop$county
+    ) %>%
+    mutate(
+        error_category = case_when(
+            top_10_error & top_10_prop_error ~ "Both",
+            top_10_error ~ "Absolute error only",
+            top_10_prop_error ~ "Proportional error only",
+            TRUE ~ "Neither"
+        )
+    )
+
+# Takeaway: The largest residuals come from overestimates in the ACS. 
+# Also applies on the proportional level as well. All top 10 are positive values. 
+
+ggplot(acs_errors) +
+    geom_sf(aes(fill = error_category), color = "black", linewidth = 0.2) +
+    scale_fill_manual(
+        values = c(
+            "Neither" = "white",
+            "Absolute error only" = "red",
+            "Proportional error only" = "blue",
+            "Both" = "purple"
+        ),
+        name = "Error Category"
+    ) +
+    ggtitle("Highest ACS Residual Counties") +
+    theme_minimal()
+
+acs_errors %>%
+    filter(error_category != "Neither") %>%
+    select(
+        county,
+        estimate,
+        true_value,
+        residual,
+        proportional_residual,
+        error_category
+    ) %>%
+    arrange(desc(residual)) %>%
+    st_drop_geometry() %>%
+    View()
 
 # Dig into prediction df
 pred_df %>%
@@ -64,7 +112,13 @@ pred_df %>%
 
 pred_df %>%
     ggplot(aes(residual, fill = model_name, colour = model_name)) +
+    geom_vline(xintercept=0, color="black", linetype="dashed", linewidth=0.25) +
     geom_density(alpha = 0.1)
+
+pred_df %>%
+    ggplot(aes(residual, fill = model_name, colour = model_name)) +
+    geom_vline(xintercept=0, color="black", linetype="dashed", linewidth=0.25) +
+    geom_boxplot(alpha = 0.1)
 
 
 compare_to_acs <- pred_df %>%
@@ -87,6 +141,10 @@ compare_to_acs %>%
 compare_to_acs %>%
     ggplot(aes(x=delta_residual, fill=model_name, colour=model_name)) +
     geom_density(alpha=0.1)
+
+compare_to_acs %>%
+    ggplot(aes(x=delta_residual, fill=model_name, colour=model_name)) +
+    geom_boxplot(alpha=0.1)
 
 # Summarise differences from acs estimates
 compare_to_acs %>%
