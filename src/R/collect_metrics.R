@@ -44,6 +44,7 @@ catalog_predictions <- function(model, name, true_vector, ci_prob=0.95, logit_re
         estimate=sae_estimates,
         true_value=true_vector,
         residual=estimate-true_vector,
+        proportional_residual = (estimate - true_vector) / true_vector,
         sd=sae_sd,
         lower=apply(posterior_predictions, 2, quantile, probs=0.025),
         upper=apply(posterior_predictions, 2, quantile, probs=0.975),

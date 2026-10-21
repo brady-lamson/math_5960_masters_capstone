@@ -21,7 +21,7 @@ full_df <- acs_df %>%
     left_join(covariate_df, by="geoid") %>%
     left_join(census_df, by=c("geoid", "name"))
 
-pred_df <- readr::read_csv("data/model_outputs/housing/all_model_predictions.csv")
+pred_df <- readr::read_csv("data/model_outputs/all_model_predictions.csv")
 
 # High level sd summary
 summary(acs_df$sd_prop)
@@ -39,11 +39,13 @@ plot(acs_df$est_prop, acs_df$sd_prop)
 plot(acs_df$est_prop, acs_df$proportional_sd)
 
 # PREDICTION DF -------
-# What are the highest residual acs estimates?
+print("What are the highest residual acs estimates?")
 top_errors <- pred_df %>%
     filter(model_name == "acs") %>%
     select(county, estimate, sd, true_value, residual) %>%
-    mutate(error_magnitude = abs(residual)) %>%
+    mutate(
+        error_magnitude = abs(residual),
+    ) %>%
     arrange(desc(error_magnitude)) %>%
     head(10)
 

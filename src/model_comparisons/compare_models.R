@@ -21,7 +21,7 @@ df <- acs_df %>%
     left_join(census_df, by="name")
 
 # LOAD MODELS ---
-folder <- "models/housing"
+folder <- "models"
 intercept_only = readRDS(paste0(folder, "/intercept_only.rds"))
 icar_only = readRDS(paste0(folder, "/icar_only.rds"))
 cdl_no_icar = readRDS(paste0(folder, "/cdl_no_icar.rds"))
@@ -34,6 +34,7 @@ model0_df <- df %>%
     mutate(
         model_name="acs",
         residual=estimate-true_value,
+        proportional_residual = (estimate - true_value) / true_value,
         true_value_captured=dplyr::if_else((true_value>=lower) & (true_value <= upper), TRUE, FALSE),
         interval_width=upper-lower,
         crps=NA
@@ -54,6 +55,7 @@ pred_df <- dplyr::bind_rows(list(model0_df, model1_df, model2_df, model3_df, mod
         estimate,
         true_value,
         residual,
+        proportional_residual,
         sd,
         lower,
         upper,
@@ -68,8 +70,11 @@ pred_summary <- pred_df %>%
     group_by(model_name) %>%
     summarise(
         mse=mean(residual^2),
+        mspe=mean(proportional_residual^2),
         mae=mean(abs(residual)),
+        mape=mean(abs(proportional_residual)),
         rmse=sqrt(mse),
+        rmspe=sqrt(mspe),
         interval_coverage=mean(true_value_captured),
         mean_interval_width=mean(interval_width),
         mean_sd=mean(sd),
@@ -78,5 +83,5 @@ pred_summary <- pred_df %>%
 pred_summary
 
 # WRITE TABLES ---
-readr::write_csv(pred_df, "data/model_outputs/housing/all_model_predictions.csv")
-readr::write_csv(pred_summary, "data/model_outputs/housing/all_model_summary.csv")
+readr::write_csv(pred_df, "data/model_outputs/all_model_predictions.csv")
+readr::write_csv(pred_summary, "data/model_outputs/all_model_summary.csv")
