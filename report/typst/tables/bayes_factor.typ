@@ -10,6 +10,7 @@
 
 #tabut(
   records,
+  stroke: (x: none),
   align: (center, center, right, right),
   (
     (header: [*Model A*], func: row => row.fitA),
