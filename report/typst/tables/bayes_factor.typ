@@ -8,14 +8,17 @@
     if x < 2 or y == 0 {gray.lighten(65%)}
 )
 
-#tabut(
-  records,
-  stroke: (x: none),
-  align: (center, center, right, right),
-  (
-    (header: [*Model A*], func: row => row.fitA),
-    (header: [*Model B*], func: row => row.fitB),
-    (header: [*Bayes Factor (A/B)*], func: row => calc.round(float(row.bf_mean), digits: 8)),
-    (header: [*Bayes Factor (B/A)*], func: row => calc.round(1 / float(row.bf_mean), digits: 3))
-  )
+#figure(
+  tabut(
+    records,
+    stroke: (0.3pt),
+    align: (center),
+    (
+      (header: [*Model A*], func: row => row.fitA),
+      (header: [*Model B*], func: row => row.fitB),
+      (header: [*Bayes Factor (A/B)*], func: row => calc.round(float(row.bf_mean), digits: 8)),
+      (header: [*Bayes Factor (B/A)*], func: row => calc.round(1 / float(row.bf_mean), digits: 3))
+    )
+  ),
+  caption: [Bayes Factor for each model combination. Each row represents the mean of 5 separate bayes factor calculations.]
 )
