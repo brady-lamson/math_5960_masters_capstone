@@ -4,9 +4,10 @@ library(sf)
 library(bayesplot)
 library(ggplot2)
 library(rstan)
+library(posterior)
 
-acs_df <- sf::st_read("data/acs/2023_5_year_acs_proportion_response.shp")
-covariate_df <- readr::read_csv("data/cdl_covariates.csv") %>%
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
+covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
     mutate(
         geoid = as.character(geoid),
         prop_corn_soy = perc_corn_soy / 100
@@ -22,11 +23,11 @@ models <- list(
     cdl_and_icar = readRDS("models/cdl_and_icar.rds")
 )
 
-# Let's focus on the full model for now
-fit <- models[[4]]
+# Let's focus on the icar model for now
+fit <- models[[2]]
 draws <- as.array(fit)
 np <- brms::nuts_params(fit)
-pars <- c("b_Intercept", "b_prop_corn_soy", "sdcar")
+pars <- c("b_Intercept", "sdcar")
 bayesplot::mcmc_parcoord(draws, pars=pars, alpha=0.1, np=np)
 # There don't seem to be any divergent iterations here. They'd be highlighted in red if they existed. 
 
@@ -47,3 +48,16 @@ bayesplot::mcmc_neff(neff_ratios)
 # Some stuff to print out in meeting ---
 print(summary(fit), digits=5)
 print(fit$fit, digits=5)
+
+# ahhh posterior library
+draws <- posterior::as_draws_df(fit)
+summaries <- posterior::summarise_draws(
+    draws,
+    mean,
+    sd,
+    ~ quantile(.x, 0.025),
+    ~ quantile(.x, 0.975),
+    rhat,
+    ess_bulk,
+    ess_tail
+)

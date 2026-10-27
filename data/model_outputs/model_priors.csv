@@ -1,0 +1,11 @@
+model_name,class,prior,lb
+intercept_only,Intercept,"student_t(3, -2.1, 2.5)",NA
+intercept_only,Random-effect SD,"student_t(3, 0, 2.5)",0
+icar_only,Intercept,"student_t(3, -2.1, 2.5)",NA
+icar_only,Spatial-effect SD,"student_t(3, 0, 2.5)",0
+cdl_no_icar,CDL Coefficient,"normal(0, 1)",NA
+cdl_no_icar,Intercept,"student_t(3, -2.1, 2.5)",NA
+cdl_no_icar,Random-effect SD,"student_t(3, 0, 2.5)",0
+cdl_and_icar,CDL Coefficient,"normal(0, 1)",NA
+cdl_and_icar,Intercept,"student_t(3, -2.1, 2.5)",NA
+cdl_and_icar,Spatial-effect SD,"student_t(3, 0, 2.5)",0
