@@ -6,16 +6,6 @@ library(ggplot2)
 library(rstan)
 library(posterior)
 
-acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
-covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
-    mutate(
-        geoid = as.character(geoid),
-        prop_corn_soy = perc_corn_soy / 100
-    ) %>%
-    select("geoid", "prop_corn_soy")
-acs_df <- acs_df %>%
-    left_join(covariate_df, by="geoid")
-
 models <- list(
     intercept_only = readRDS("models/intercept_only.rds"),
     icar_only = readRDS("models/icar_only.rds"),
@@ -51,6 +41,10 @@ print(fit$fit, digits=5)
 
 # ahhh posterior library
 draws <- posterior::as_draws_df(fit)
+
+# TODO: FILTER THIS FOR INTERCEPT, SDCAR, PROP CORN SOY
+# ADD A MODEL NAME COLUMN AS WELL.
+# SAVE TO POSTERIOR OUTPUT CSV
 summaries <- posterior::summarise_draws(
     draws,
     mean,

@@ -7,7 +7,7 @@ source("src/R/transformations.R")
 
 # INITIAL DATA INGESTION AND SETUP ----
 p <- 0.025 # For upper and lower bounds. 95% interval
-acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp") %>%
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp") %>%
     mutate(
         lower = inv_logit(qnorm(p, mean=est_logit, sd=sd_logit)),
         upper = inv_logit(qnorm(1-p, mean=est_logit, sd=sd_logit))
@@ -41,13 +41,21 @@ model0_df <- df %>%
     ) %>%
     sf::st_drop_geometry() %>%
     tibble()
-model1_df <- catalog_predictions(intercept_only, "intercept_only", true_vector=df$prop_vac)
-model2_df <- catalog_predictions(icar_only, "icar_only", true_vector=df$prop_vac)
+model1_df <- readr::read_csv("data/model_outputs/emdi_model_predictions.csv") %>%
+    left_join(census_df, join_by("county" == "name")) %>%
+    mutate(
+        true_value=prop_vac,
+        residual=estimate-prop_vac,
+        proportional_residual = (estimate - prop_vac) / prop_vac
+    ) %>%
+    select(-prop_vac)
+model2_df <- catalog_predictions(intercept_only, "intercept_only", true_vector=df$prop_vac)
 model3_df <- catalog_predictions(cdl_no_icar, "cdl_only", true_vector=df$prop_vac)
-model4_df <- catalog_predictions(cdl_and_icar, "cdl_and_icar", true_vector=df$prop_vac)
+model4_df <- catalog_predictions(icar_only, "icar_only", true_vector=df$prop_vac)
+model5_df <- catalog_predictions(cdl_and_icar, "cdl_and_icar", true_vector=df$prop_vac)
 
 # COMBINE MODEL METRIC DATAFRAMES, CREATE ADDITIONAL METRICS ---
-pred_df <- dplyr::bind_rows(list(model0_df, model1_df, model2_df, model3_df, model4_df)) %>%
+pred_df <- dplyr::bind_rows(list(model0_df, model1_df, model2_df, model3_df, model4_df, model5_df)) %>%
     # Reorder columns for my own preference
     select(
         model_name,
