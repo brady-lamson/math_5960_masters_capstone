@@ -57,6 +57,30 @@ catalog_predictions <- function(model, name, true_vector, ci_prob=0.95, logit_re
 }
 
 
+get_coefficient_summaries <- function(fit, model_name, filter_variables=c()) {
+    draws <- posterior::as_draws_df(fit)
+    coeff_summary <- posterior::summarise_draws(
+        draws,
+        mean,
+        sd,
+        ~ quantile(.x, 0.025),
+        ~ quantile(.x, 0.975),
+        rhat,
+        ess_bulk,
+        ess_tail
+    )
+    
+    coeff_summary["model_name"] <- model_name
+    
+    if (length(filter_variables) > 0) {
+        coeff_summary <- coeff_summary %>%
+            filter(variable %in% filter_variables)
+    }
+    
+    return(coeff_summary)
+}
+
+
 get_metric_ranking <- function(df, metric, print_table=TRUE) {
     # TODO: ALLOW SWAPPING BETWEEN MAX AND MIN
     # KINDA DIDNT THINK ABOUT ALL MY RELEVANT METRICS BEING SMALL IS GOOD
