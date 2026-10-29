@@ -4,8 +4,6 @@
 
 == Data Processing
 
-=== 2020 Decennial Census of Population and Housing
-
 === American Community Survey
 
 ACS data was acquired for this project through the Census Bureau API, indirectly interfaced with via the `tidycensus` R package on CRAN. Data was pulled from the 2020 5-year ACS estimates for the `B25002_001` and `B25002_003` variables, which as previously mentioned correspond to the total housing units and vacant housing units per county. The resulting dataframe has a grain of one row per variable per county, so 2 rows per county. Each row contains the estimate for that variable and its corresponding Margin of Error (MoE). This dataframe was pivoted to a grain of one row per county to facilitate creation of the response variable, vacancy rates. For each county, the vacant unit count was divided by the total housing unit count to get the vacancy rate of that county. 
@@ -77,5 +75,11 @@ From this, our transformed standard error is
 $
   sigma_Q = sigma / (P(1-P)) 
 $
+
+=== 2020 Decennial Census of Population and Housing
+
+Ingestion and processing of the 2020 decennial census data was handled in a similar manner to the ACS data. Data was acquired through the `tidycensus` package, used to access the 2020 Census Demographic and Housing Characteristics File (DHC). The variables pulled were `H3_001N` and `H3_003N`, which correspond to total housing units and total vacant units repsectively. The grain of the data is the same as the original ACS data, one row per county per variable. The final table had one row per county, and a new column representing the housing vacancy rate was created. 
+
+To ensure the accuracy of census housing vacancy rates, output was compared to the official housing vacancy numbers provided by the Census Bureau in their 2020 Iowa breakdown @censusIowa2020. All of the values matched their values presented on that sites dashboard.
 
 === NASS Crop Data Layer
