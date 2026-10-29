@@ -7,6 +7,8 @@ library(stringr)
 library(tidyr)
 source("src/R/transformations.R")
 
+write = FALSE
+
 tidycensus::census_api_key(Sys.getenv("CENSUS_API_KEY"))
 
 # Find relevant variables from ACS 5 year estimate
@@ -40,20 +42,25 @@ acs_df <- tidycensus::get_acs(
     ) %>%
     rename_with(tolower)
 
-path <- "data/acs/housing/2020_5_year_acs_housing.shp"
-sf::st_write(
-    obj=acs_df,
-    dsn=path,
-    delete_dsn=TRUE
-)
+path <- "data/acs/2020_5_year_acs_housing.shp"
+if (write == TRUE) {
+    sf::st_write(
+        obj=acs_df,
+        dsn=path,
+        delete_dsn=TRUE
+    ) 
+}
+
+pivoted_df <- sf::st_read(path) %>%
+    select(-c(var, moe)) %>% # Remove columns that break the pivot
+    pivot_wider(names_from = var_name, values_from=c(est, sd))
+
 
 # Save the proportion version of the dataset
-acs_proportion_df <- sf::st_read(path) %>%
-    select(-c(var, moe)) %>% # Remove columns that break the pivot
-    pivot_wider(names_from = var_name, values_from=c(est, sd)) %>%
+acs_proportion_df <- pivoted_df %>%
     mutate(
         est_proportion = est_vacant_housing / est_total_housing,
-        sd_proportion = sqrt(sd_vacant_housing^2 - (est_proportion^2 * sd_total_housing)^2) / est_total_housing,
+        sd_proportion = sqrt(sd_vacant_housing^2 - (est_proportion^2 * sd_total_housing^2)) / est_total_housing,
         variance_proportion = sd_proportion^2,
         # LOGIT Transformations ---
         est_logit = logit(est_proportion),
@@ -72,10 +79,13 @@ acs_proportion_df <- sf::st_read(path) %>%
         sd_occ=sd_occupied_housing,
         sd_all=sd_total_housing
     )
+    
+if (write == TRUE) {
+    path <- "data/acs/2020_5_year_acs_proportion_response.shp"
+    sf::st_write(
+        obj=acs_proportion_df,
+        dsn=path,
+        delete_dsn=TRUE
+    )
+}
 
-path <- "data/acs/housing/2020_5_year_acs_proportion_response.shp"
-sf::st_write(
-    obj=acs_proportion_df,
-    dsn=path,
-    delete_dsn=TRUE
-)
