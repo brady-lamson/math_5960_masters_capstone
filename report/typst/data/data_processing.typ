@@ -6,7 +6,7 @@
 
 === American Community Survey
 
-ACS data was acquired for this project through the Census Bureau API, indirectly interfaced with via the `tidycensus` R package on CRAN. Data was pulled from the 2020 5-year ACS estimates for the `B25002_001` and `B25002_003` variables, which as previously mentioned correspond to the total housing units and vacant housing units per county. The resulting dataframe has a grain of one row per variable per county, so 2 rows per county. Each row contains the estimate for that variable and its corresponding Margin of Error (MoE). This dataframe was pivoted to a grain of one row per county to facilitate creation of the response variable, vacancy rates. For each county, the vacant unit count was divided by the total housing unit count to get the vacancy rate of that county. 
+ACS data was acquired for this project through the Census Bureau API, indirectly interfaced with via the `tidycensus` R package on CRAN. Data was pulled from the 2020 5-year ACS estimates for the `B25002_001` and `B25002_003` variables, which as previously mentioned correspond to the total housing units and vacant housing units per county. The resulting dataframe has a grain of one row per variable per county, so 2 rows per county. Each row contains the estimate for that variable, its corresponding Margin of Error (MoE) and the spatial geometry of that county. This dataframe was pivoted to a grain of one row per county to facilitate creation of the response variable, vacancy rates. For each county, the vacant unit count was divided by the total housing unit count to get the vacancy rate of that county. 
 
 $
 "Vacancy Rate" = ("Vacant Housing Units" / "Total Housing Units")
@@ -103,3 +103,4 @@ With $i$ representing the index of a given county.
 Below is a snippet of the resulting dataframe. Values are saved as percentages and converted to proportions at the modeling stage.
 
 #include "../tables/cdl_df_snippet.typ"
+
