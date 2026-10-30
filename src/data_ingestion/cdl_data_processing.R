@@ -1,9 +1,17 @@
 library(sf)
 library(tigris)
 library(terra) # Using this over Raster as its a newer more well behaved package
+library(readr)
+source("src/R/cdl_helpers.R")
 
 path = "data/cdl/2020_30m_cdls/2020_30m_cdls.tif"
 cdl <- terra::rast(path)
+
+calc_freq = FALSE
+if (calc_freq) {
+    cdl_freq <- cdl_frequency(cdl)
+    readr::write_csv(cdl_freq, "data/cdl/usa_cdl_frequency.csv")
+}
 
 # Load iowa data, align CRS and convert to data type for Terra
 iowa <- tigris::states(year = 2020) |>

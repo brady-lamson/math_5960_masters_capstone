@@ -24,7 +24,7 @@ $
   "SE"(P) = 1 / B sqrt("SE"(A)^2 - P^2 times "SE"(B)^2)
 $
 
-==== LOGIT Transformation of the Response
+==== Logit Transformation of the Response
 
 As the Fay-Herriot model relies on linear regression as a key component, a proportion response can behave poorly. The domain of the output of a linear reression is the entire real line, whereas a proportion is bounded between 0 and 1. In a more traditional scenario this would lead to a logistic regression model, though usage of the Fay-Herriot model requires alternative methods to overcome this limitation. Logit transformations have been used in this scenario before, such as in research performed by Cucu Sumarni et al. that found a "logit transformation within the SAE framework improved the precision of proportion estimates" @fhLogitTransform. This takes a response bounded between 0 and 1 and maps it to the entire real line. Thus, our transformed response can be represented as
 
@@ -32,7 +32,7 @@ $
 Q = ln(P / (1-P))
 $
 
-==== LOGIT Transformation of the Standard Error
+==== Logit Transformation of the Standard Error
 
 Yet again, additional work is required for the conversion of the standard error. For this, the delta method was utilized. For reference,
 
@@ -76,10 +76,30 @@ $
   sigma_Q = sigma / (P(1-P)) 
 $
 
+The final dataframe contains a variety of other columns for diagnostic and exploratory purposes, but the dataframe of modeling components looks like so:
+
+#include "../tables/acs_df_snippet.typ"
+
 === 2020 Decennial Census of Population and Housing
 
-Ingestion and processing of the 2020 decennial census data was handled in a similar manner to the ACS data. Data was acquired through the `tidycensus` package, used to access the 2020 Census Demographic and Housing Characteristics File (DHC). The variables pulled were `H3_001N` and `H3_003N`, which correspond to total housing units and total vacant units repsectively. The grain of the data is the same as the original ACS data, one row per county per variable. The final table had one row per county, and a new column representing the housing vacancy rate was created. 
+Ingestion and processing of the 2020 decennial census data was handled in a similar manner to the ACS data. Data was acquired through the `tidycensus` package, used to access the 2020 Census Demographic and Housing Characteristics File (DHC). The variables pulled were `H3_001N` and `H3_003N`, which correspond to total housing units and total vacant units repsectively. The grain of the data is the same as the original ACS data, one row per county per variable. The final table had one row per county, and a new column representing the housing vacancy rate was created in percent units. These values were not passed through a LOGIT transformation as they are intended for comparison against the predictions after they have been transformed back into the original proportion scale.
 
-To ensure the accuracy of census housing vacancy rates, output was compared to the official housing vacancy numbers provided by the Census Bureau in their 2020 Iowa breakdown @censusIowa2020. All of the values matched their values presented on that sites dashboard.
+To ensure the accuracy of census housing vacancy rates, output was compared to the official housing vacancy numbers provided by the Census Bureau in their 2020 Iowa breakdown @censusIowa2020. All of the values matched their values presented on that sites dashboard. Below is a snippet of the data.
+
+#include "../tables/census_df_snippet.typ"
 
 === NASS Crop Data Layer
+
+The crop data layer requires careful processing to be usable in this project. At a $30 times 30$ meter resolution, the 2020 crop data layer raster image has a rectangular dimension of $96523 times 153811$ pixels, or 14.8 billion pixels total. About 6.2 billion $(42%)$ pixels are empty background pixels and 8.7 billion encompassing actual categorizations. Naive calculations performed on this object are prone to overloading the memory of the machine running them. The `terra` package was used for loading and processing this file. For filtering down to only Iowa's portion of the CDL, the `tigris` package was utilized to download Iowa's TIGER shapefiles from the U.S. Census. The coordinate reference systems (CRS) of the two objects were aligned to NAD83 Conus Albers (ESPG:5070). Cropping and masking is then performed on the CDL using the Iowa shapefile object. Cropping filters the CDL down to the rectangular region containing Iowa, and masking changes all pixels outside of the state borders to NA. 
+
+This new object, the Iowa CDL, contains a rectangular dimension of $11671 times 17794$, or approximately 207 million pixels total. That is $1.3%$ the size of the original CDL. Of those, about 46 million $(22%)$ are empty background, and appoximately 162 million $(78%)$ pixels are categorized. From here, the goal is to get a table containing the frequency and proportion breakdown of every county in the state. To accomplish this goal, a similar process was used as before. County shapefiles were acquired using `tigris` and, using an iterative approach over the counties that leverages cropping and masking, the frequencies of every CDL classification were captured alongside the total number of pixels within the county's borders. A dataframe was created from this that contains one row per county, with the percent of the pixels in the county that were classified as either corn or soybeans. The proportion from this functions as the spatial covariate for the model and can be represented as:
+
+$
+  "Proportion Corn or Soy"_i = ("# of Corn Pixels"_i + "# of Soybean Pixels"_i) / "# of Pixels Total"_i
+$
+
+With $i$ representing the index of a given county. 
+
+Below is a snippet of the resulting dataframe. Values are saved as percentages and converted to proportions at the modeling stage.
+
+#include "../tables/cdl_df_snippet.typ"
