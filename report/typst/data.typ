@@ -4,4 +4,4 @@
 
 #include "data/data_processing.typ"
 
-#include "data/eda.typ"
+#include "data/data_analysis.typ"

@@ -5,7 +5,7 @@ library(dplyr)
 library(sf)
 source("src/R/collect_metrics.R")
 
-acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
 
 path <- "models/housing/intercept_only.rds"
 if (!file.exists(path)) {

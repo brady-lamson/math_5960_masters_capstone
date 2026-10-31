@@ -9,7 +9,7 @@
     table.header([County],[Soybeans (%)], [Corn (%)], [Corn or Soy (%)]),
     [Polk], [17.8], [22.4], [40.2],
     [Grundy], [36.0], [52.5], [88.5],
-    [...], [...], [...], [...]
+    [-], [-], [-], [-]
   ),
   caption: "Snippet of the CDL DataFrame containing the spatial covariate of the model. The individual soy and corn columns are kept for reference."
 )

@@ -2,17 +2,32 @@ library(dplyr)
 library(sf)
 library(spdep)
 
-acs_df <- sf::st_read("data/acs/2023_5_year_acs_proportion_response.shp")
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
 head(acs_df)
 
 neighbor_list <- spdep::poly2nb(acs_df, queen=TRUE)
 coords <- st_coordinates(st_centroid(st_geometry(acs_df)))
 
-plot(st_geometry(acs_df), border="grey60")
-plot(neighbor_list, coords = coords, add=TRUE, pch=19, cex=0.6, col="blue")
+# plot(st_geometry(acs_df), border="grey60", main="Iowa County Neighbor Connections")
+# plot(neighbor_list, coords = coords, add=TRUE, pch=19, cex=0.6, col="blue")
 
 summary(neighbor_list)
 
 # Let's test for spatial autocorrelation for the response
 neighbor_listw <- spdep::nb2listw(neighbor_list, style="B")
 spdep::moran.test(acs_df$est_prop, listw = neighbor_listw, randomisation = FALSE)
+
+# Test for spatial autocorrelation for the response in the census
+census_df <- sf::st_read("data/census/2020_housing_vacancy_rates.shp")
+
+neighbor_list <- spdep::poly2nb(census_df, queen=TRUE)
+coords <- st_coordinates(st_centroid(st_geometry(census_df)))
+
+# plot(st_geometry(acs_df), border="grey60", main="Iowa County Neighbor Connections")
+# plot(neighbor_list, coords = coords, add=TRUE, pch=19, cex=0.6, col="blue")
+
+summary(neighbor_list)
+
+# Let's test for spatial autocorrelation for the response
+neighbor_listw <- spdep::nb2listw(neighbor_list, style="B")
+spdep::moran.test(census_df$prop_vac, listw = neighbor_listw, randomisation = FALSE)
