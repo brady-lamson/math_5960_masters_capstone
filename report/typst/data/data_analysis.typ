@@ -1,6 +1,6 @@
 == Data Analysis
 
-=== Iowa Spatial Structure
+=== Iowa Spatial Structure <iowa_spatial>
 
 Iowa was chosen for this project for a few reasons. The first is that it has some very populated counties and very sparsely populated counties. This allows for a good demonstration of the Fay-Herriot model as it can effectively pool from informative counties. This will be discussed in more detail in later sections. 
 
@@ -11,7 +11,7 @@ Second is the layout of its counties. Iowa has 99 counties total and they are ar
   caption: "Plot showing adjacent county links across Iowa."
 )
 
-=== 2020 Decennial Census of Population and Housing
+=== 2020 Decennial Census of Population and Housing <census_eda>
 
 The counties in Iowa vary dramatically in terms of their population and housing. The number of total housing units can range from as little as $1,888$ (Adams County) all the way up to $210,184$ (Polk County). 29 of the 99 total counties have less than $5,000$ total housing units.
 
@@ -42,6 +42,14 @@ Examining these values at the spatial level, we can see that the overall populat
 
 === American Community Survey
 
+Analysis of the ACS data also functions as an analysis of the baseline model for this project. To begin the analysis, we examine the ACS equivalent of @census_summary, shown in @acs_summary. What we see are near identical values, though there is a slight difference. The minimums never reach the same lows, and the maximums never reach the same highs. However, the values throughout the 1st and 3rd quartiles are consistently above those from the census. 
+
+#include "../tables/acs_df_summary.typ"
+
+Examining the errors
+
+#include "../tables/acs_df_se_summary.typ"
+
 === Tests of Spatial Autocorrelation for Housing Vacancy Rates
 
 To assess the utility of an ICAR component in the Fay-Herriot model, Moran's I tests were performed on both the ACS response and the Census response separately to test for spatial autocorrelation. For this, the `moran.test` function was used from the `spdep` package on CRAN. For each dataset, two tests were performed under the constant risk hypothesis. One test uses binary neighbor encoding, another uses row standardization. The hypotheses for these tests are as follows:
@@ -58,3 +66,4 @@ From the results in the figure below, both forms of encoding from both datasets 
 It is worth noting that these tests were primarily used as a diagnostic and a quick check of method feasibility. The risk from incorrectly rejecting the null hypothesis is low, and so additional tests were not performed. What these results show is that an ICAR component in the Fay-Herriot model does have some grounding, it isn't being applied to a response with no evidence of spatial autocorrelation. 
 
 === NASS Crop Data Layer
+

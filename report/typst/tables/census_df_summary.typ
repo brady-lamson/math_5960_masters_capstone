@@ -15,4 +15,4 @@
     [Maximum], [210184], [13293], [0.41743],
   ),
   caption: "Summary of the housing data from the 2020 decennial census. (N=99)"
-)
+) <census_summary>
