@@ -1,6 +1,8 @@
 #import "@preview/grape-suite:3.1.0": seminar-paper
 #import seminar-paper:
 
+#show figure.caption: set text(style: "italic")
+
 #show: seminar-paper.project.with(
     title: "Small Area Estimation with the Fay-Herriot Model",
     subtitle: "ICAR and Logit Transformation",
