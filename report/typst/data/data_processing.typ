@@ -80,7 +80,7 @@ The final dataframe contains a variety of other columns for diagnostic and explo
 
 #include "../tables/acs_df_snippet.typ"
 
-=== 2020 Decennial Census of Population and Housing
+=== 2020 Decennial Census of Population and Housing <census_processing>
 
 Ingestion and processing of the 2020 decennial census data was handled in a similar manner to the ACS data. Data was acquired through the `tidycensus` package, used to access the 2020 Census Demographic and Housing Characteristics File (DHC). The variables pulled were `H3_001N` and `H3_003N`, which correspond to total housing units and total vacant units repsectively. The grain of the data is the same as the original ACS data, one row per county per variable. The final table had one row per county, and a new column representing the housing vacancy rate was created in percent units. These values were not passed through a LOGIT transformation as they are intended for comparison against the predictions after they have been transformed back into the original proportion scale.
 

@@ -5,10 +5,10 @@ library(tidyr) # For pivoting
 library(terra)
 library(tigris)
 
-path <- "data/cdl/county_cdl_aggregation.csv"
+path <- "data/cdl/county_cdl_frequency.csv"
 county_df <- readr::read_csv(path)
 
-path = "data/cdl/2023_30m_cdl_iowa_terra.tif"
+path = "data/cdl/2020_30m_cdl_iowa_terra.tif"
 cdl <- terra::rast(path)
 
 counties <- tigris::counties(state = "iowa") %>%
@@ -50,27 +50,61 @@ counties_with_corn_soy == length(counties)
 # We're good! 
 summary(corn_soy_df)
 # geoid          county           total_pixels         crop             frequency         percentage    
-# Min.   :19001   Length:198         Min.   :1151448   Length:198         Min.   : 102866   Min.   : 6.853  
-# 1st Qu.:19050   Class :character   1st Qu.:1377575   Class :character   1st Qu.: 335693   1st Qu.:24.128  
-# Median :19099   Mode  :character   Median :1650770   Mode  :character   Median : 507708   Median :32.398  
-# Mean   :19099                      Mean   :1638511                      Mean   : 514853   Mean   :31.110  
-# 3rd Qu.:19148                      3rd Qu.:1701961                      3rd Qu.: 656395   3rd Qu.:38.979  
-# Max.   :19197                      Max.   :2807359                      Max.   :1325786   Max.   :51.480 
+# Min.   :19001   Length:198         Min.   :1151448   Length:198         Min.   : 107494   Min.   : 6.529  
+# 1st Qu.:19050   Class :character   1st Qu.:1377575   Class :character   1st Qu.: 347422   1st Qu.:24.412  
+# Median :19099   Mode  :character   Median :1650770   Mode  :character   Median : 507230   Median :31.710  
+# Mean   :19099                      Mean   :1638511                      Mean   : 530450   Mean   :32.075  
+# 3rd Qu.:19148                      3rd Qu.:1701961                      3rd Qu.: 690556   3rd Qu.:41.261  
+# Max.   :19197                      Max.   :2807359                      Max.   :1402267   Max.   :57.502
 
 # COVARIATE DF
-covariate_df <- readr::read_csv("data/iowa_counties_aggregated.csv")
+covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv")
 
-summary(covariate_df)
-# geoid          county            perc_corn         perc_soy      perc_corn_soy  
-# Min.   :19001   Length:99          Min.   : 9.773   Min.   : 6.853   Min.   :17.99  
-# 1st Qu.:19050   Class :character   1st Qu.:27.537   1st Qu.:22.268   1st Qu.:50.48  
-# Median :19099   Mode  :character   Median :38.101   Median :29.264   Median :67.33  
-# Mean   :19099                      Mean   :35.069   Mean   :27.151   Mean   :62.22  
-# 3rd Qu.:19148                      3rd Qu.:43.823   3rd Qu.:33.307   3rd Qu.:76.58  
-# Max.   :19197                      Max.   :51.480   Max.   :39.751   Max.   :87.19 
+covariate_summary <- covariate_df %>%
+    select(perc_soy, perc_corn, perc_corn_soy) %>%
+    summary()
+covariate_summary
+# geoid          county             perc_soy        perc_corn      perc_corn_soy  
+# Min.   :19001   Length:99          Min.   : 6.529   Min.   : 8.585   Min.   :19.95  
+# 1st Qu.:19050   Class :character   1st Qu.:21.139   1st Qu.:29.528   1st Qu.:52.51  
+# Median :19099   Mode  :character   Median :27.469   Median :41.317   Median :69.36  
+# Mean   :19099                      Mean   :26.424   Mean   :37.726   Mean   :64.15  
+# 3rd Qu.:19148                      3rd Qu.:32.215   3rd Qu.:47.726   3rd Qu.:77.84  
+# Max.   :19197                      Max.   :38.464   Max.   :57.502   Max.   :88.51  
+
+# Conversion to dataframe done by chatgpt
+# Certainly not code I'd ever write.
+covariate_summary <- covariate_df %>%
+    summarise(
+        across(
+            c(perc_soy, perc_corn, perc_corn_soy),
+            list(
+                Minimum = min,
+                Q1 = \(x) quantile(x, 0.25),
+                Median = median,
+                Mean = mean,
+                Q3 = \(x) quantile(x, 0.75),
+                Maximum = max
+            )
+        )
+    ) %>%
+    pivot_longer(
+        everything(),
+        names_to = c("variable", "statistic"),
+        names_sep = "_(?=[^_]+$)",
+        values_to = "value"
+    ) %>%
+    pivot_wider(
+        names_from = variable,
+        values_from = value
+    )
+
+readr::write_csv(covariate_summary, "data/cdl/covariate_summary.csv")
 
 counties_joined <- terra::merge(counties, covariate_df, by.x=c("GEOID", "NAME"), by.y=c("geoid", "county"))
 breaks <- seq(0, 100, 10)
 terra::plot(counties_joined, "perc_corn_soy", main="Percentage of Corn and Soybean Land Coverage by County", breaks=breaks)
+
+# ggsave(fig, filename="images/corn_soy_land_coverage.png")
 terra::plot(counties_joined, "perc_corn", main = "Percentage of Corn Land Coverage by County", breaks=breaks)
 terra::plot(counties_joined, "perc_soy", main = "Percentage of Soybean Land Coverage by County", breaks=breaks)
