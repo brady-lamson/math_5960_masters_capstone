@@ -6,8 +6,10 @@ source("src/R/plotting.R")
 library(ggplot2)
 library(terra)
 library(tidyterra)
+library(readr)
 
 acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
+cdl_covariate <- readr::read_csv("data/cdl/cdl_covariates.csv")
 
 acs_df %>% summary()
 
@@ -193,3 +195,25 @@ fig <- ggplot(acs_df, aes(x=sd_logit)) +
 
 fig
 ggsave(fig, file="images/error_logit_density.png")
+
+# RESPONSE VS COVARIATE ---
+temp_df <- acs_df %>%
+    select(name, est_prop) %>%
+    rename(county = name) %>%
+    left_join(
+        cdl_covariate %>% select(county, perc_corn_soy),
+        by="county"
+    ) %>%
+    mutate(prop_corn_soy = perc_corn_soy / 100) %>%
+    st_drop_geometry()
+
+fig <- basic_scatterplot(
+    columnA=temp_df$est_prop, 
+    columnB=temp_df$prop_corn_soy, 
+    columnA_name="Vacancy Rate",
+    columnB_name="Proportion Corn or Soy",
+    title="Response vs. Covariate"
+)
+
+fig
+ggsave(fig, filename="response_vs_covariate.png")
