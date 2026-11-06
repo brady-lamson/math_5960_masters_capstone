@@ -1,5 +1,6 @@
 library(brms)
 library(dplyr)
+library(tidyr)
 library(posterior)
 
 models <- list(

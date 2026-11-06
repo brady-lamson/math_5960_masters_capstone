@@ -49,7 +49,7 @@ summary(model_df)
 
 save_df <- FALSE
 if (save_df) {
-    write.csv(model_df, "data/model_outputs/housing/emdi_intercept_only.csv", row.names=FALSE)
+    write.csv(model_df, "data/model_outputs/emdi_intercept_only.csv", row.names=FALSE)
 }
 
 # For comparison
