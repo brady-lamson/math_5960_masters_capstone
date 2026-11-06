@@ -26,6 +26,7 @@
 
 #include "intro.typ"
 #include "data.typ"
+#include "methods.typ"
 #include "results.typ"
 #include "conclusion.typ"
 #bibliography("references.bib")

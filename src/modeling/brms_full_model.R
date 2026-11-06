@@ -7,7 +7,7 @@ library(readr)
 library(spdep)
 source("src/R/collect_metrics.R")
 
-acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
 neighbor_list <- spdep::poly2nb(acs_df, queen=TRUE, row.names=acs_df$name)
 neighbor_matrix <- spdep::nb2mat(neighbours = neighbor_list, style="B")
 covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
@@ -19,7 +19,7 @@ covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
 acs_df <- acs_df %>%
     left_join(covariate_df, by="geoid")
 
-path <- "models/housing/cdl_and_icar.rds"
+path <- "models/cdl_and_icar.rds"
 if (!file.exists(path)) {
     print(paste0("Model file not found at ", path, " fitting model instead ---"))
     fit <- brms::brm(

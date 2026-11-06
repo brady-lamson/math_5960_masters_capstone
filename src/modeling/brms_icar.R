@@ -6,11 +6,11 @@ library(sf)
 library(spdep)
 source("src/R/collect_metrics.R")
 
-acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
 neighbor_list <- spdep::poly2nb(acs_df, queen=TRUE, row.names=acs_df$name)
 neighbor_matrix <- spdep::nb2mat(neighbours = neighbor_list, style="B")
 
-path <- "models/housing/icar_only.rds"
+path <- "models/icar_only.rds"
 if (!file.exists(path)) {
     print(paste0("Model file not found at ", path, " fitting model instead ---"))
     fit <- brms::brm(

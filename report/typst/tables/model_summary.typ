@@ -9,11 +9,11 @@
 )
 #let model_labels = (
   acs: "ACS",
-  emdi_intercept_only: "Intercept Only (Frequentist)",
-  intercept_only: "Intercept Only (Bayesian)",
+  emdi_intercept_only: "Int (Freq)",
+  intercept_only: "Int (Bayes)",
   cdl_only: "CDL",
   icar_only: "ICAR",
-  cdl_and_icar: "ICAR & CDL"
+  cdl_and_icar: "Full Model"
 )
 #let model_summary = csv("../../../data/model_outputs/all_model_summary.csv")
 
@@ -45,7 +45,7 @@
           else {calc.round(float(r.mean_sd), digits: 5)}
       ),
       (
-        header: [Mean Interval Width],
+        header: [Interval Width],
         func: r => if r.mean_interval_width == "NA" {[---]}
           else {calc.round(float(r.mean_interval_width), digits: 5)}
       ),
@@ -61,8 +61,8 @@
       ),
     )
   ),
-  caption: [Summary metrics for all models. ]
-)
+  caption: [Summary metrics for all models. "Int" refers to intercept only FH models. Int (Freq) is the frequentist model fit using `Emdi` whereas Int (Bayes) was fit using `brms`. Interval width represents the mean interval width for all counties.]
+) <result_summary>
 
 
 // #figure(

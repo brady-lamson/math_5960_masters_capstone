@@ -6,7 +6,7 @@ library(sf)
 library(readr)
 source("src/R/collect_metrics.R")
 
-acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
 covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
     mutate(
         geoid = as.character(geoid),
@@ -16,7 +16,7 @@ covariate_df <- readr::read_csv("data/cdl/cdl_covariates.csv") %>%
 acs_df <- acs_df %>%
     left_join(covariate_df, by="geoid")
 
-path <- "models/housing/cdl_no_icar.rds"
+path <- "models/cdl_no_icar.rds"
 if (!file.exists(path)) {
     print(paste0("Model file not found at ", path, " fitting model instead ---"))
     fit <- brms::brm(
