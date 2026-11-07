@@ -20,16 +20,18 @@ basic_scatterplot <- function(
         columnB, 
         columnA_name, 
         columnB_name, 
-        title,
+        title=NULL,
         xlab=NULL,
         ylab=NULL,
         show_corr=TRUE,
         match_limits=FALSE, 
-        abline=FALSE
+        abline=FALSE,
+        color_by_abline=FALSE
     ) {
     # Basic scatterplot of two numeric columns, passed in directly as vectors
     # Also includes the correlation coefficient on the visual
     # No validation on this function due to a lack of time
+    # Only pass in vectors of equal length, jeez
     
     if (is.null(xlab)) {
         xlab = columnA_name
@@ -38,13 +40,30 @@ basic_scatterplot <- function(
     if (is.null(ylab)) {
         ylab = columnB_name
     }
-
-    fig <- ggplot(data=NULL, aes(x=columnA, y=columnB)) +
-        geom_point() +
+    
+    if (is.null(title)) {
+        title = paste("Scatterplot -", columnA_name, "vs.", columnB_name)
+    }
+    
+    plot_data <- tibble(
+        columnA = columnA,
+        columnB = columnB
+    ) %>% mutate(position = if_else(columnB > columnA, "Above", "Below or Equal"))
+    
+    fig <- ggplot(data=plot_data, aes(x=columnA, y=columnB)) +
+        # geom_point() +
         labs(title=title) +
         xlab(xlab) +
         ylab(ylab) +
         theme_classic()
+    
+    if (color_by_abline == TRUE) {
+        fig <- fig + 
+            geom_point(aes(color=position)) +
+            theme(legend.position="none")
+    } else {
+        fig <- fig + geom_point()
+    }
     
     if (show_corr == TRUE) {
         cor_coeff <- cor(columnA, columnB)
@@ -56,8 +75,16 @@ basic_scatterplot <- function(
         fig <- fig + geom_abline(lty=3)
     }
     
-    return(fig)
+    if (match_limits == TRUE) {
+        max_val <- max(columnA, columnB, na.rm=TRUE)
+        min_val <- min(columnA, columnB, na.rm=TRUE)
         
+        fig <- fig +
+            xlim(min_val, max_val) +
+            ylim(min_val, max_val)
+    }
+    
+    return(fig)
 }
 
 # Direct estimate vs. se

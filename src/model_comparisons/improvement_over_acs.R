@@ -5,7 +5,8 @@ library(ggplot2)
 
 full_df <- readr::read_csv("data/model_outputs/all_model_predictions.csv")
 pred_df <- full_df %>%
-    filter(!(model_name %in% c("acs", "cdl_only", "cdl_and_icar")) )
+    # filter(!(model_name %in% c("acs", "cdl_only", "cdl_and_icar", "")) )
+    filter(model_name %in% c("intercept_only", "icar_only"))
 
 acs_df <- full_df %>%
     filter(model_name == "acs") %>%
@@ -58,7 +59,8 @@ anti_join(pred_df, acs_df, by = "county") %>% count(model_name)
 comp_df %>%
     group_by(model_name) %>%
     summarise(
-        mean_residual = mean(residual),
-        mean_sd = mean(sd),
-        mean_int_width = mean(interval_width)
+        mean_residual_change = mean(residual_change),
+        mean_residual_pct_change = mean(residual_pct_change),
+        mean_sd_pct_change = mean(sd_pct_change),
+        mean_int_width_pct_change = mean(interval_width_pct_change)
     )

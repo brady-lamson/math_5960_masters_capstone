@@ -21,4 +21,4 @@
     )
   ),
   caption: [Bayes Factor for each model combination. Each row represents the mean of 5 separate bayes factor calculations.]
-)
+) <bayes_factor>

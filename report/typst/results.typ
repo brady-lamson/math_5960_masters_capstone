@@ -1,4 +1,5 @@
 = Results
 
-#include "results/model_results.typ"
-#include "results/acs_baseline_overview.typ"
+#include "results/result_summary.typ"
+#include "results/cdl_examination.typ"
+#include "results/estimate_comparisons.typ"

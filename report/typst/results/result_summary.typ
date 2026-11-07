@@ -1,6 +1,6 @@
 == Summary Results
 
-To begin the breakdown of the results section, we first start with a high level overview of the performance of every model. @result_summary contains all of the metrics used to gauge model performance. All results should be interpreted with respect to the ACS results, as those function as the baseline to beat. 
+To begin the breakdown of the results section, we first start with a high level overview of the performance of every model. @result_summary contains all of the metrics used to gauge model performance. All results should be interpreted with respect to the ACS results, as those function as the baseline to beat. It is important to note that this section focuses on high level aggregated metrics. Further sections will focus more on performance at the individual estimate level. 
 
 #include "../tables/model_summary.typ"
 
