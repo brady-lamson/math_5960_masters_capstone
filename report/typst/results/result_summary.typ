@@ -1,12 +1,12 @@
 == Summary Results
 
-To begin the breakdown of the results section, we first start with a high level overview of the performance of every model. @result_summary contains all of the metrics used to gauge model performance. All results should be interpreted with respect to the ACS results, as those function as the baseline to beat. It is important to note that this section focuses on high level aggregated metrics. Further sections will focus more on performance at the individual estimate level. 
+@result_summary contains all of the metrics used to gauge overall model performance. All results should be interpreted with respect to the ACS results, as those function as the baseline to beat. It is important to note that this section focuses on high level aggregated metrics. Further sections will focus more on performance at the individual estimate level. 
 
 #include "../tables/model_summary.typ"
 
 === Mean Squared Error and Mean Absolute Error
 
-Starting with MSE and MAE, we see some interesting results. For both MSE and MAE, all FH models show improvement over the ACS estimates. The best performer here is actually the frequentist intercept only model, having the lowest value for both metrics. Though it is possible that this is genuinely the best model for MAE and MSE, it is worth considering that this could indicate incorrect estimation collection from the Bayesian models. In other words, that this is a symptom of user error. Regardless, moving on to the Bayesian models they all perform similarly. The full model technically performs the best for MSE and the CDL model performs the best for MAE. The magnitude of these differences is miniscule however, and is not evidence on its own for any of the Bayesian models being the best on these metrics alone. 
+Starting with MSE and MAE, all FH models show improvement over the ACS estimates for both metrcs. The best performer here is actually the frequentist intercept only model, having the lowest value for both metrics. Though it is possible that this is genuinely the best model for MAE and MSE, it is worth considering that this could indicate incorrect estimation collection from the Bayesian models. In other words, that this is a symptom of user error. Regardless, moving on to the Bayesian models they all perform similarly. The full model technically performs the best for MSE and the CDL model performs the best for MAE. The magnitude of these differences is miniscule however, and is not evidence on its own for any of the Bayesian models being the best on these metrics alone. 
 
 #let estimate = $hat(theta)_i$
 #let sigma = $hat(sigma)_i$

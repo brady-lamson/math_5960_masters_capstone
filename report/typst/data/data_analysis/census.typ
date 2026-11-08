@@ -24,4 +24,4 @@ The same trend is seen with vacant units, as one would expect places with more h
   caption: "Spatial plots showing the distribution of housing units and vacancy rates by county across the state."
 )
 
-Examining these values at the spatial level, we can see that the overall population of housing units is heavily concentrated in a small number of counties scattered throughout the state. In contract, vacancy rates show a far more mixed distribution of values. Visually it is unclear if there is evidence of spatial autocorrelation for the vacancy rates, but there does appear to be some grouping.
+Examining these values at the spatial level, the overall population of housing units appears heavily concentrated in a small number of counties scattered throughout the state. In contract, vacancy rates show a far more mixed distribution of values. Visually it is unclear if there is evidence of spatial autocorrelation for the vacancy rates, but there does appear to be some grouping.

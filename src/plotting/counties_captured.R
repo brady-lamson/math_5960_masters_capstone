@@ -4,10 +4,10 @@ library(sf)
 library(readr)
 library(ggplot2)
 
-acs_df <- sf::st_read("data/acs/housing/2020_5_year_acs_proportion_response.shp")
+acs_df <- sf::st_read("data/acs/2020_5_year_acs_proportion_response.shp")
 
 pred_df <- readr::read_csv("data/model_outputs/all_model_predictions.csv") %>%
-    filter(!(model_name %in% c("cdl_only", "cdl_and_icar")) ) %>%
+    filter(model_name %in% c("acs", "intercept_only", "icar_only")) %>%
     mutate(
         error_magnitude = abs(residual),
         prop_error_magnitude = abs(proportional_residual)
@@ -19,24 +19,6 @@ pred_df <- readr::read_csv("data/model_outputs/all_model_predictions.csv") %>%
             model_name,
             levels = c("acs", "intercept_only", "icar_only")
         )
-    )
-
-ggplot(pred_df) +
-    geom_sf(aes(fill = true_value_captured), color = "white", linewidth = 0.15) +
-    facet_wrap(~model_name) +
-    scale_fill_manual(
-        values = c("TRUE" = "steelblue", "FALSE" = "firebrick"),
-        labels = c("TRUE" = "Captured", "FALSE" = "Missed"),
-        name = "True value"
-    ) +
-    labs(
-        title = "County-Level Prediction Interval Coverage",
-        subtitle = "Comparison of ACS, intercept-only, and ICAR models"
-    ) +
-    theme_void() +
-    theme(
-        strip.text = element_text(face = "bold"),
-        legend.position = "bottom"
     )
 
 coverage_comparison <- pred_df %>%
@@ -74,7 +56,7 @@ coverage_comparison <- pred_df %>%
     st_as_sf()
 
 
-ggplot(coverage_comparison) +
+fig <- ggplot(coverage_comparison) +
     geom_sf(aes(fill = coverage_outcome), color = "white", linewidth = 0.15) +
     facet_wrap(~comparison) +
     scale_fill_manual(
@@ -86,11 +68,26 @@ ggplot(coverage_comparison) +
         )
     ) +
     labs(
-        title = "Prediction Interval Coverage: SAE Models vs. ACS",
+        title = "95% Prediction Interval Coverage: SAE Models vs. ACS",
         fill = "Coverage outcome"
     ) +
+    coord_sf(expand=FALSE) +
     theme_void() +
     theme(
-        strip.text = element_text(face = "bold"),
+        strip.text = element_text(face = "bold", margin=margin(b=8, t=4)),
         legend.position = "bottom"
     )
+
+fig
+ggsave(fig, filename="images/county_capture_outcomes.png")
+
+coverage_comparison %>%
+    filter(coverage_outcome %in% c("SAE gains coverage", "SAE loses coverage")) %>%
+    st_drop_geometry() %>%
+    select(county, model, coverage_outcome)
+
+pred_df %>%
+    filter(county %in% c("Henry", "Cedar", "Dickinson")) %>%
+    arrange(county) %>%
+    select(county, model_name, estimate, true_value, residual, lower, upper, true_value_captured) %>%
+    st_drop_geometry()

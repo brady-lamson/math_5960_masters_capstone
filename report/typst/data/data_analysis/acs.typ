@@ -1,10 +1,10 @@
 === American Community Survey
 
-To begin the analysis, we examine the ACS equivalent of @census_summary, shown in @acs_summary. What we see are near identical values, though there is a slight difference. The minimums never reach the same lows, and the maximums never reach the same highs. However, the values throughout the 1st and 3rd quartiles are consistently above those from the census. 
+Analysis begins with the ACS equivalent of @census_summary, shown in @acs_summary. What is shown are near identical values, though there is a slight difference. The minimums never reach the same lows, and the maximums never reach the same highs. However, the values throughout the 1st and 3rd quartiles are consistently above those from the census. 
 
 #include "../../tables/acs_df_summary.typ"
 
-Examining the summary of the errors in @acs_error_summary shows some extremely interesting behavior. The standard errors of the vacancy estimates are far higher than the total unit estimates. On average, the ratio of the vacant standard error to the total unit standard error is around $2.8$, and goes all the way up to $7.1$. This is before even accounting for the fact that the vacant unit estimates are far smaller, being a subset of the total. What this means is the vacancy unit estimates are far less precise than the total estimates are, and this lack of precision carries to the proportion as well. We can see that the relative standard errors for the vacancy estimates are nearly identical to those of the vacancy rates. 
+Examining the summary of the errors in @acs_error_summary shows some extremely interesting behavior. The standard errors of the vacancy estimates are far higher than the total unit estimates. On average, the ratio of the vacant standard error to the total unit standard error is around $2.8$, and goes all the way up to $7.1$. This is before even accounting for the fact that the vacant unit estimates are far smaller, being a subset of the total. What this means is the vacancy unit estimates are far less precise than the total estimates are, and this lack of precision carries to the proportion as well. The relative standard errors for the vacancy estimates appear nearly identical to those of the vacancy rates. 
 
 #include "../../tables/acs_df_se_summary.typ"
 
