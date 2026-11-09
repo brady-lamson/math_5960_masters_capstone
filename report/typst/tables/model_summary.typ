@@ -63,28 +63,3 @@
   ),
   caption: [Summary metrics for all models. "Int" refers to intercept only FH models. Int (Freq) is the frequentist model fit using `Emdi` whereas Int (Bayes) was fit using `brms`. Interval width represents the mean interval width for all counties.]
 ) <result_summary>
-
-
-// #figure(
-//   tabut(
-//     data,
-//     stroke: (x: none),
-//     align: (center),
-//     (
-//       (header: [Model], func: r => model_labels.at(r.model_name)),
-//       (header: [MSE], func: r => calc.round(float(r.mse), digits:6)),
-//       (header: [MAE], func: r => calc.round(r.mae, digits:5)),
-//       (header: [Mean SD], func: r => calc.round(r.mean_sd, digits: 5)),
-//       (header: [Mean Interval Width], func: r => calc.round(r.mean_interval_width, digits: 5)),
-//       (header: [Interval Coverage], func: r => calc.round(r.interval_coverage, digits:4)),
-//       (
-//         header: [Mean CRPS], 
-//         func: r => if r.mean_crps == "NA" {[---]} 
-//           else {
-//             calc.round(float(r.mean_crps), digits: 6)
-//           }
-//       ),
-//     )
-//   ),
-//   caption: [Summary metrics for all models. ]
-// )

@@ -1,0 +1,2 @@
+variable,estimate,sd,lower,upper,model_name
+Intercept,-2.0547255634513233,0.045198465600430754,-2.14331292818464,-1.9661381987180064,intercept_only_frequentist

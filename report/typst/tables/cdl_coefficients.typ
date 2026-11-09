@@ -27,7 +27,8 @@
 #figure(
   tabut(
     records
-    .filter(r => r.model_name in ("cdl_only", "cdl_and_icar")),
+    .filter(r => r.model_name in ("cdl_only", "cdl_and_icar"))
+    .filter(r => r.variable == "b_prop_corn_soy"),
     align: (left, left, auto, auto, auto, auto),
     (
       (header: [Model], func: r => model_labels.at(r.model_name)),
@@ -38,5 +39,5 @@
       (header: [$97.5%$], func: r => calc.round(r.at("97.5%"), digits: 3)),
     )
   ),
-  caption: "Model Coefficients for models containing the Crop Data Layer Covariate."
+  caption: "Coefficient distributions for the spatial covariate."
 ) <cdl_coefficients>
