@@ -25,7 +25,9 @@ diagnostic_df <- coeff_df %>%
     summarise(
         max_rhat = max(rhat),
         min_ess_bulk = min(ess_bulk),
-        min_ess_tail = min(ess_tail)
+        med_ess_bulk = median(ess_bulk),
+        min_ess_tail = min(ess_tail),
+        med_ess_tail = median(ess_tail)
     )
 
 readr::write_csv(diagnostic_df, "data/model_outputs/model_diagnostics.csv")
