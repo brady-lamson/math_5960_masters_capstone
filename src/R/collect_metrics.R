@@ -68,9 +68,16 @@ get_coefficient_summaries <- function(fit, model_name, filter_variables=c()) {
         rhat,
         ess_bulk,
         ess_tail
-    )
+    ) %>%
+        rename(
+            estimate=mean,
+            lower=`2.5%`,
+            upper=`97.5%`
+        ) %>%
+        mutate(model_name = model_name) %>%
+        filter(variable != "sigma")
     
-    coeff_summary["model_name"] <- model_name
+    # coeff_summary["model_name"] <- model_name
     
     if (length(filter_variables) > 0) {
         coeff_summary <- coeff_summary %>%
