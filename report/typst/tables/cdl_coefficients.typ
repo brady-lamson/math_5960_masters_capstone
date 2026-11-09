@@ -33,11 +33,11 @@
     (
       (header: [Model], func: r => model_labels.at(r.model_name)),
       (header: [Variable], func: r => variable_labels.at(r.variable)),
-      (header: [$mu$], func: r => calc.round(r.mean, digits: 3)),
-      (header: [$sigma$], func: r => calc.round(r.sd, digits: 3)),
-      (header: [$2.5%$], func: r => calc.round(r.at("2.5%"), digits: 3)),
-      (header: [$97.5%$], func: r => calc.round(r.at("97.5%"), digits: 3)),
+      (header: [Estimate], func: r => calc.round(r.estimate, digits: 3)),
+      (header: [SD], func: r => calc.round(r.sd, digits: 3)),
+      (header: [Lower Bound], func: r => calc.round(r.lower, digits: 3)),
+      (header: [Upper Bound], func: r => calc.round(r.upper, digits: 3)),
     )
   ),
-  caption: "Coefficient distributions for the spatial covariate."
+  caption: "Coefficient distributions for the spatial covariate. Lower and Upper correspond to the 2.5% and 97.5% percentiles of the coefficients credible interval respectively."
 ) <cdl_coefficients>
