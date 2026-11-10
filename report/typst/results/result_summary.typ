@@ -50,9 +50,3 @@ For one final comparison of overall model performance, the Continuous Ranked Pro
 ]
 
 As for the results of this score, all 4 bayesian models are nearly identical here. The full model pulls slightly ahead, but it is difficult to ascertain if the difference here is a meaningful one. It is worth noting that the intercept only model, which had the best MAE, loses out to the full model on CRPS.
-
-=== Crop Data Layer Model Coefficients
-
-Before moving on to deeper model results, the Crop Data Layer Models must be investigated. As shown in @response_vs_covariate, there is a lack of an obvious relationship between the CDL covariate and housing vacancy rates. @cdl_coefficients shows the coefficient distributions for the crop proportion covariate in both models featuring it. The $95%$ credible intervals for both the CDL and Full Model include 0, indicating that there is insufficient evidence of a non-zero effect. These distributions provide additional evidence against its inclusion. Due to this, the two CDL models will not be included in further result reporting. 
-
-#include "../tables/cdl_coefficients.typ"

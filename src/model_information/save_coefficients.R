@@ -19,5 +19,6 @@ full_coeff <- get_coefficient_summaries(cdl_and_icar, model_name = "cdl_and_icar
 int_freq_coeff <- readr::read_csv("data/model_outputs/emdi_coefficients.csv")
 
 coeff_df <- dplyr::bind_rows(list(int_freq_coeff, int_coeff, cdl_coeff, icar_coeff, full_coeff)) %>%
-    relocate(c(variable, model_name))
+    relocate(c(model_name, variable)) %>%
+    arrange(desc(model_name), variable)
 readr::write_csv(coeff_df, "data/model_outputs/model_coefficients.csv")

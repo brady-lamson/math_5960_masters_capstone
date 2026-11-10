@@ -26,8 +26,8 @@ As for the collection of plots in @mcmc_pairs, there are some interesting result
 
 These relationships are consistent through the various models. The ICAR model shows the same scattering as shown in the plots surrounding sdcar, and the cdl model shows the same extreme negative colinearity between variables. 
 
-=== Crop Data Layer Model Coefficients
+// === Crop Data Layer Model Coefficients
 
-Due to the above diagnostic results, the Crop Data Layer Models coefficients must be investigated. As shown in @response_vs_covariate, there is a lack of an obvious relationship between the CDL covariate and housing vacancy rates. @cdl_coefficients shows the coefficient distributions for the crop proportion covariate in both models featuring it. The $95%$ credible intervals for both the CDL and Full Model include 0, indicating that there is insufficient evidence of a non-zero effect. These distributions provide additional evidence against its inclusion. Due to all of these diagnostic results, the two CDL models will not be included in further result reporting. 
+// Due to the above diagnostic results, the Crop Data Layer Models coefficients must be investigated. As shown in @response_vs_covariate, there is a lack of an obvious relationship between the CDL covariate and housing vacancy rates. @cdl_coefficients shows the coefficient distributions for the crop proportion covariate in both models featuring it. The $95%$ credible intervals for both the CDL and Full Model include 0, indicating that there is insufficient evidence of a non-zero effect. These distributions provide additional evidence against its inclusion. Due to all of these diagnostic results, the two CDL models will not be included in further result reporting. 
 
-#include "../tables/cdl_coefficients.typ"
+// #include "../tables/cdl_coefficients.typ"

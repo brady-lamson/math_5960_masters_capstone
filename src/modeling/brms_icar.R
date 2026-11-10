@@ -1,5 +1,3 @@
-# For learning the brms package
-
 library(brms)
 library(dplyr)
 library(sf)

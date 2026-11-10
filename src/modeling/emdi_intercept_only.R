@@ -28,8 +28,6 @@ model_fit <- emdi::fh(
 model_fit
 summary(model_fit)
 
-model_fit$model
-
 lower_z <- qnorm(0.025)
 upper_z <- qnorm(0.975)
 coeffs <- model_fit$model$coefficients %>% 
@@ -45,7 +43,18 @@ coeffs <- model_fit$model$coefficients %>%
         lower = estimate + (lower_z * sd),
         upper = estimate + (upper_z * sd),
         model_name = "intercept_only_frequentist"
-    )
+    ) %>%
+    bind_rows(tibble(
+        variable = "estimated_sd_component", 
+        estimate=sqrt(model_fit$model$variance),
+        model_name = "intercept_only_frequentist"
+    ))
+
+coeffs %>%
+    # Between county random effects standard error
+    # equivalent to sd_name__Intercept from the bayesian non-icar models
+    # From "Estimated variance component" from model summary
+    bind_rows(tibble(variable = "estimated_sd_component", estimate=sqrt(model_fit$model$variance)))
 
 # Create dataframe capturing domain specific info, for later comparisons and diagnostics
 # Different from all predictions on purpose, to help explore manual calculations

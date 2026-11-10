@@ -29,9 +29,9 @@ Visualizing this information in @cdl_county_map shows some indication of spatial
   caption: "Plot of land coverage per county."
 ) <cdl_county_map>
 
-The plot in @response_vs_covariate showcases a big problem with this choice of covariate. It appears to lack any meaningful relationship with the response. The points on the plot appear very randomly scattered, with no obvious trend to point to. This plot begs the question of why this is even a covariate for the model. This is something that will be explained in more detail in the limitations section, however to keep it brief this is the result of a change in topic partway through the project. The previous response had a far stronger relationship with the crop data layer. Due to the extensive amount of work done on this dataset, it is kept in this report primarily as a showcase of methodology. 
+The plot in @response_vs_covariate showcases a big problem with this choice of covariate. It appears to to show a minor negative relationship with vacancy rates, though it's not a convincing trend. The points on the plot appear very randomly scattered, with no obvious trend to point to. This plot begs the question of why this is even a covariate for the model. This is something that will be explained in more detail in the limitations section, however to keep it brief this is the result of a change in topic partway through the project. The previous response had a far stronger relationship with the crop data layer. Due to the extensive amount of work done on this dataset, it is kept in this report primarily as a showcase of methodology. 
 
 #figure(
   image("../../../../response_vs_covariate.png", width: 75%),
-  caption: "Scatterplot showing the lack of a relationship between vacancy rates and corn/soy land coverage."
+  caption: "Scatterplot showing the a mild negative relationship between vacancy rates and corn/soy land coverage."
 ) <response_vs_covariate>
