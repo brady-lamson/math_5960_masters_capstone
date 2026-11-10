@@ -14,7 +14,7 @@
 #let variable_labels = (
   Intercept: "Intercept",
   b_prop_corn_soy: "Crop Proportion",
-  sdcar: "ICAR Random Effects",
+  sdcar: "sdcar",
   sd_name__Intercept: "County Random Effects",
   estimated_sd_component: "County Random Effects"
 )
@@ -39,14 +39,16 @@
   fill: (x, y) => {
     if y == 0 {
       gray.lighten(65%)
-    } else if y in (1, 3, 5, 7, 10) {
-      rgb("#cf47477b") // Intercept
-    } else if y in (2, 4, 9) {
-      rgb("#DCEAF7") // Random effects
-    } else if y in (6, 12) {
-      rgb("#E5F0E0") // ICAR random effects
-    } else if y in (8, 11) {
-      rgb("#F8E8D8") // Crop proportion
+    } else if y in (1, 2) {
+      rgb("#c57d7d93") // Intercept Only (Freq)
+    } else if y in (3, 4) {
+      rgb("#DCEAF7") // Intercept Only (Bayes)
+    } else if y in (5, 6) {
+      rgb("#E5F0E0") // ICAR Only
+    } else if y in (7, 8, 9) {
+      rgb("#F8E8D8") // CDL Only
+    } else if y in (10, 11, 12) {
+      rgb("#EDE0F5") // CDL + ICAR
     } else {
       white
     }
@@ -80,5 +82,5 @@
     )
     )
   ,
-  caption: "Coefficient distributions. Estimate for the Bayesian models represents the mean of the posterior distribution for that variable. Lower and Upper correspond to the 2.5% and 97.5% percentiles of the coefficients credible/confidence intervals respectively."
+  caption: "Coefficient distributions. Estimate for the Bayesian models represents the mean of the posterior distribution for that variable. Lower and Upper correspond to the 2.5% and 97.5% percentiles of the coefficients credible/confidence intervals respectively. Rows are colored by model to aid readability."
 ) <model_coefficients>
