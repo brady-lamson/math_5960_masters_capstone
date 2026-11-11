@@ -57,7 +57,7 @@ or a $7.9%$ vacancy rate.
 
 === Intercept Only Model Bayesian
 
-The approach from the `brms` output works a little bit differently. It provides an intercept, a variable representing the county effect standard error, a standardized county specific effect, and the actual county specific effect. 
+The approach from the `brms` output works a little bit differently. It provides an intercept, a variable representing the county effect standard error, and each county gets its own specific random effect. 
 
 They are as follows:
 
@@ -94,3 +94,5 @@ $
   &= -2.06 - 0.39 \
   &approx -2.44
 $
+
+As can be seen from these examples, the estimates for Grundy barely differ at all. It is important to note that these examples do not take into account the difference in precision amongst these estimates. 
