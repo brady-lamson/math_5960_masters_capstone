@@ -18,7 +18,7 @@ The census is a human process and does not provide perfect numbers. The 2020 cen
 
 Using the decennial census as the source of truth for model performance also imposes limitations on the type of analysis that can be performed. As it is only performed every 10 years, comparisons made to non-census years become less reliable. This raises concerns in this project about how well these results generalize to years outside of 2020. It is extremely possible that the best model for 2020 would differ from one in 2027 for example, and this methodology provides no way to identify that drift. The Census Bureau does provide guidelines for this however, with their Population Estimates Program (PEP) that provides official estimtates for between-census years @compareACSandCensus.
 
-=== Only one type of neighbor matrix tested
+=== Neighbor matrix encoding
 
 When addressing spatial autocorrelation there are multiple ways of encoding neighbor relationships. Only one was explored in this project, a binary neighbor encoding. That is, if a county is adjacent to another neighbor the corresponding value in its matrix is set to 1. It is possible that other encoding methods, such as a row normalized matrix, would perform in a meaningfully different way. This was not explored due to the quantity of models already being compared. This limits the conclusions that can be drawn from the ICAR component.
 
