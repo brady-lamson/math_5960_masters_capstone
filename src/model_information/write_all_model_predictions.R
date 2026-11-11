@@ -77,12 +77,10 @@ digit_override <- options(pillar.sigfig=7)
 pred_summary <- pred_df %>%
     group_by(model_name) %>%
     summarise(
+        bias=mean(residual),
         mse=mean(residual^2),
-        mspe=mean(proportional_residual^2),
         mae=mean(abs(residual)),
-        mape=mean(abs(proportional_residual)),
         rmse=sqrt(mse),
-        rmspe=sqrt(mspe),
         interval_coverage=mean(true_value_captured),
         mean_interval_width=mean(interval_width),
         mean_sd=mean(sd),

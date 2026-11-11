@@ -15,8 +15,8 @@
   Intercept: "Intercept",
   b_prop_corn_soy: "Crop Proportion",
   sdcar: "sdcar",
-  sd_name__Intercept: "Group Effect SD",
-  estimated_sd_component: "Group Effect SD"
+  sd_name__Intercept: "Random Effect SD",
+  estimated_sd_component: "Random Effect SD"
 )
 
 #let sorted_records = records.sorted(
