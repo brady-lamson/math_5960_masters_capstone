@@ -5,7 +5,7 @@
 
 #show: seminar-paper.project.with(
     title: "Small Area Estimation with the Fay-Herriot Model",
-    subtitle: "ICAR and Logit Transformation",
+    subtitle: "",
 
     university: [University of Colorado Denver],
     docent: none,
@@ -30,3 +30,4 @@
 #include "results.typ"
 #include "conclusion.typ"
 #bibliography("references.bib")
+#include "appendix.typ"

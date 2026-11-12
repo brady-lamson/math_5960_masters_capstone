@@ -21,7 +21,8 @@ model_fit <- emdi::fh(
     combined_data=df,
     correlation="no", # change to 'spatial' later perhaps
     maxit=10000,
-    tol=0.0001 # default
+    tol=0.0001, # default
+    seed=100
 )
 
 # Examine model outputs
