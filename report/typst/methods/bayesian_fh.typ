@@ -32,9 +32,11 @@ A similar approach can be used to get the joint distribution of $bold(theta)$. R
 
 #let mu_sd = $sigma_(mu)$
 
-$
-  theta_i | beta_0, #mu_sd = 1/(sqrt(2 pi) #mu_sd) exp(- (theta_i - beta_0)^2 / (2 #mu_sd^2))
-$
+#math.equation(
+  $
+    theta_i | beta_0, #mu_sd = 1/(sqrt(2 pi) #mu_sd) exp(- (theta_i - beta_0)^2 / (2 #mu_sd^2))
+  $
+) <process_distribution>
 
 and, with the assumption of independent county level effects, a joint distribution of
 

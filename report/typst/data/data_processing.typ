@@ -88,7 +88,7 @@ To ensure the accuracy of census housing vacancy rates, output was compared to t
 
 #include "../tables/census_df_snippet.typ"
 
-=== NASS Crop Data Layer
+=== NASS Crop Data Layer <cdl_processing>
 
 The crop data layer requires careful processing to be usable in this project. At a $30 times 30$ meter resolution, the 2020 crop data layer raster image has a rectangular dimension of $96523 times 153811$ pixels, or 14.8 billion pixels total. About 6.2 billion $(42%)$ pixels are empty background pixels and 8.7 billion encompassing actual categorizations. Naive calculations performed on this object are prone to overloading the memory of the machine running them. The `terra` package was used for loading and processing this file. For filtering down to only Iowa's portion of the CDL, the `tigris` package was utilized to download Iowa's TIGER shapefiles from the U.S. Census. The coordinate reference systems (CRS) of the two objects were aligned to NAD83 Conus Albers (ESPG:5070). Cropping and masking is then performed on the CDL using the Iowa shapefile object. Cropping filters the CDL down to the rectangular region containing Iowa, and masking changes all pixels outside of the state borders to NA. 
 
