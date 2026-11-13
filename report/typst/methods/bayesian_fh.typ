@@ -47,12 +47,14 @@ $
 
 For the priors of $beta_0$ and $#mu_sd$, they were automatically provided defaults by the `brms` package. They are as follows,
 
-$
-  p(beta_0) &= t_3(beta_0 | -2.1, 2.5) \
-  p(#mu_sd) &= t_3^+(#mu_sd | 0, 2.5) \
-$
+#math.equation(
+  $
+    p(beta_0) &= t_3(beta_0 | -2.1, 2.5) \
+    p(#mu_sd) &= t_3^+(#mu_sd | 0, 2.5) \
+  $
+)<int_priors>
 
-where $t_3^+$ represents the students t distribution with 3 degrees of freedom and a lower bound of 0. The full density functions of these priors are not written out for the sake of space. 
+where $t_3^+$ represents the students t distribution with 3 degrees of freedom and a lower bound of 0, otherwise known as a Half-Student-t The full density functions of these priors are not written out for the sake of space. 
 
 === Full Posterior Distribution
 

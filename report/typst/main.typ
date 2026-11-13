@@ -24,6 +24,8 @@
     show-declaration-of-independent-work: false
 )
 
+#set math.equation(block: true, numbering: "(1)")
+
 #include "intro.typ"
 #include "data.typ"
 #include "methods.typ"

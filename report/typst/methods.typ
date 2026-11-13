@@ -4,9 +4,7 @@
 
 #include "methods/bayesian_fh.typ"
 
-== Spatial Random Effects
-
-The traditional Fay-Herriot model treats assumes the spacial random effects are identically distributed independent variables from a normal distribution with an unknown variance. This assumption is often inappropriate for the task of small area estimation, where autocorrelation between neighboring areas is expected. There has been a large amount of work historically in spatial variants of the Fay-Herriot model. 
+#include "methods/icar.typ"
 
 == Auxillary covariates
 
