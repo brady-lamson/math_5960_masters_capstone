@@ -1,6 +1,7 @@
-#import "@preview/grape-suite:3.1.0": seminar-paper
-#import seminar-paper:
+// #import "@preview/grape-suite:4.0.0": seminar-paper
+// #import seminar-paper:
 
+#import "grape-suite-4.0.0/src/seminar-paper.typ": seminar-paper
 #show figure.caption: set text(style: "italic")
 
 #show: seminar-paper.project.with(
@@ -8,7 +9,6 @@
     subtitle: "",
 
     university: [University of Colorado Denver],
-    docent: none,
     faculty: none,
     institute: none,
     seminar: none,
@@ -26,6 +26,8 @@
 
 #set math.equation(block: true, numbering: "(1)")
 
+#include "abstract.typ"
+#pagebreak()
 #include "intro/intro.typ"
 #include "data/data.typ"
 #include "methods/methods.typ"
@@ -33,3 +35,5 @@
 #include "conclusion/conclusion.typ"
 #bibliography("references.bib")
 #include "appendix/appendix.typ"
+
+///Users/brady_fingoal/Library/Caches/typst/packages/preview/grape-suite/4.0.0/src/seminar-paper.typ
