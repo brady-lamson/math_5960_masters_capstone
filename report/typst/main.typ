@@ -26,10 +26,10 @@
 
 #set math.equation(block: true, numbering: "(1)")
 
-#include "intro.typ"
-#include "data.typ"
-#include "methods.typ"
-#include "results.typ"
-#include "conclusion.typ"
+#include "intro/intro.typ"
+#include "data/data.typ"
+#include "methods/methods.typ"
+#include "results/results.typ"
+#include "conclusion/conclusion.typ"
 #bibliography("references.bib")
-#include "appendix.typ"
+#include "appendix/appendix.typ"
