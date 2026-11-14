@@ -12,4 +12,5 @@
 == STAN Code <appendix_stan>
 
 #include "stan_int.typ"
-#include "stan_icar.typ"
+// #include "stan_icar.typ"
+#include "stan_full.typ"
