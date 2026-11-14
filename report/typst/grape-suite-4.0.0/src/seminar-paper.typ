@@ -26,7 +26,7 @@
         university: "UNIVERSITY",
         faculty: "FACULTY",
         institute: "INSTITUTE",
-        seminar: "SEMINAR",
+        // seminar: "SEMINAR",
         semester: "SEMESTER",
         instructor: "INSTRUCTOR",
 
@@ -36,6 +36,7 @@
         address: "ADDRESS",
 
         title-page-part: none,
+        abstract: none,
         title-page-part-submit-date: none,
         title-page-part-submit-to: none,
         title-page-part-submit-by: none,
@@ -158,7 +159,7 @@
                     ifnn-line(university)
                     ifnn-line(faculty)
                     ifnn-line(institute)
-                    ifnn-line(seminar)
+                    // ifnn-line(seminar)
                     ifnn-line(instructor)
                 } else {
                     title-page-part-submit-to
@@ -224,6 +225,13 @@
             sentence-supplement,
         )
         show: sentence-logic
+
+        // abstract
+        if abstract != none {
+            pagebreak()
+            abstract
+            pagebreak()
+        }
 
         // outline
         if show-outline or show-todolist {
