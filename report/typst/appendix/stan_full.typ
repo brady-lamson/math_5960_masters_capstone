@@ -1,4 +1,4 @@
-=== BRMS Full Model STAN Code
+=== BRMS Full Model
 
 ```R
 // generated with brms 2.23.0

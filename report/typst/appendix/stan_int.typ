@@ -1,4 +1,4 @@
-=== BRMS Intercept Only STAN Code
+=== BRMS Intercept Only
 
 ```R
 > fit$model
