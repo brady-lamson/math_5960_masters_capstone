@@ -1,6 +1,6 @@
 === NASS Crop Data Layer
 
-To help motivate many of the decisions made in @census_processing, analysis will begin with the crop data layer itself. Examining @crop_percentages shows that the makeup of land in Iowa is very different from that of the USA as a whole. Corn and Soybeans make up $38%$ and $27%$ of the states land coverage respectively. Adding those up, approximately $65%$ of Iowas land coverage is corn or soybeans. Neither of these even reach $5%$ of the land coverage in the USA overall. The plots shown in @cdl_spatial_distributions visualize the similar spatial distributions and land coverage of corn and soybeans across the state. Their similarities and high prevelance, alongside their importance to Iowas overall agriculture gave the motivation for using them as a proxy for agricultural coverage per county. 
+To help motivate many of the decisions made in @census_processing, analysis will begin with the crop data layer itself. Examining @crop_percentages shows that the makeup of land in Iowa is very different from that of the USA as a whole. Corn and Soybeans make up $38%$ and $27%$ of the states land coverage respectively. Adding those up, approximately $65%$ of Iowa's land coverage is corn or soybeans. Neither of these even reach $5%$ of the land coverage in the USA overall. The plots shown in @cdl_spatial_distributions visualize the similar spatial distributions and land coverage of corn and soybeans across the state. Their similarities and high prevalence, alongside their importance to Iowa's overall agriculture gave the motivation for using them as a proxy for agricultural coverage per county. 
 
 #include "../../tables/cdl_percentages.typ"
 
@@ -9,7 +9,6 @@ To help motivate many of the decisions made in @census_processing, analysis will
     columns: 2,
     [#image("../../../../images/corn_spatial_distribution.png")],
     [#image("../../../../images/soy_spatial_distribution.png")],
-
   ),
   caption: "Plots showcasing the aggregated spatial distribution of corn and soybeans. Aggregation performed on each crop separately taking the mean of every 25x25 pixel area."
 ) <cdl_spatial_distributions>
@@ -33,5 +32,5 @@ The plot in @response_vs_covariate showcases a big problem with this choice of c
 
 #figure(
   image("../../../../images/response_vs_covariate.png", width: 75%),
-  caption: "Scatterplot showing the a mild negative relationship between vacancy rates and corn/soy land coverage."
+  caption: "Scatter plot showing the a mild negative relationship between vacancy rates and corn/soy land coverage."
 ) <response_vs_covariate>

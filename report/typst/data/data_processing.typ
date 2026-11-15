@@ -26,7 +26,7 @@ $
 
 ==== Logit Transformation of the Response
 
-As the Fay-Herriot model relies on linear regression as a key component, a proportion response can behave poorly. The domain of the output of a linear reression is the entire real line, whereas a proportion is bounded between 0 and 1. In a more traditional scenario this would lead to a logistic regression model, though usage of the Fay-Herriot model requires alternative methods to overcome this limitation. Logit transformations have been used in this scenario before, such as in research performed by Cucu Sumarni et al. that found a "logit transformation within the SAE framework improved the precision of proportion estimates" @fhLogitTransform. This takes a response bounded between 0 and 1 and maps it to the entire real line. Thus, our transformed response can be represented as
+As the Fay-Herriot model relies on linear regression as a key component, a proportion response can behave poorly. The domain of the output of a linear regression is the entire real line, whereas a proportion is bounded between 0 and 1. In a more traditional scenario this would lead to a logistic regression model, though usage of the Fay-Herriot model requires alternative methods to overcome this limitation. Logit transformations have been used in this scenario before, such as in research performed by Cucu Sumarni et al. that found a "logit transformation within the SAE framework improved the precision of proportion estimates" @fhLogitTransform. This takes a response bounded between 0 and 1 and maps it to the entire real line. Thus, our transformed response can be represented as
 
 $
 Q = ln(P / (1-P))

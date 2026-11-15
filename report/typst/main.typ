@@ -36,5 +36,3 @@
 #include "conclusion/conclusion.typ"
 #bibliography("references.bib")
 #include "appendix/appendix.typ"
-
-///Users/brady_fingoal/Library/Caches/typst/packages/preview/grape-suite/4.0.0/src/seminar-paper.typ

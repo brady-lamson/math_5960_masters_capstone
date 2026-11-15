@@ -1,5 +1,9 @@
 = Appendix <appendix>
 
+== Project Github Repository
+
+#link("https://github.com/brady-lamson/math_5960_masters_capstone")
+
 == EMDI and BRMS Code <appendix_code>
 
 #show figure: set align(left)
