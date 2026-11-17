@@ -14,7 +14,7 @@
 - Date captured: 2026-09-12
 - Source date: n/a
 - Author: Louise Litrico
-- Description/Use: Helpful resource for learning BRMS package and a nice review of bayesian modeling workflows. Even includes random and fixed effects. 
+- Description/Use: Helpful resource for learning BRMS package and a nice review of Bayesian modeling workflows. Even includes random and fixed effects. 
 
 ## Improving Precision in Small Area Proportion Estimation Using Logit Transformation
 

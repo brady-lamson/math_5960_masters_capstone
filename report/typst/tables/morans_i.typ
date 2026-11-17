@@ -15,5 +15,5 @@
     [Census], [Binary], [0.130], [#expected_i], [#variance_i], [2.48], [0.0066],
     [Census], [Row Standardized], [0.142], [#expected_i], [#variance_i], [2.62], [0.0043]
   ),
-  caption: "Moran's I results from both the ACS and Census datasets. These tests performed under the normality assumption and constant risk hypothesis."
+  caption: "Moran's I results from both the ACS and Census datasets. These tests were performed under the normality assumption and constant risk hypothesis."
 )

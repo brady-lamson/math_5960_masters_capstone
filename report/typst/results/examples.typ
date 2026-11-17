@@ -4,7 +4,7 @@ This section was written to aid in the interpretation of the various coefficient
 
 === Intercept Only Model Frequentist
 
-For the model fit using `emdi`, it gives a number of components that fit together to create the Fay-herriot estimate. The ones used for this example will be the intercept, variance component, the acs direct estimate and the acs estimate variance. The values are as follows:
+For the model fit using `emdi`, it gives a number of components that fit together to create the Fay-Herriot estimate. The ones used for this example will be the intercept, variance component, the acs direct estimate and the acs estimate variance. The values are as follows:
 
 #let acs_est = $hat(theta)^("acs")$
 #let acs_var = $hat(sigma^2)^("acs")$
@@ -39,7 +39,7 @@ $
   &approx -2.450
 $
 
-Which matches the FH estimate provided by emdi 
+This matches the FH estimate provided by emdi.
 
 ```
 > model_fit$ind[1, ]
@@ -76,11 +76,11 @@ $
   &approx -2.45
 $
 
-Which is the same as the previous example.
+This is the same as the previous example.
 
 === ICAR Model
 
-As for the ICAR model, it functions identically to this one. The only difference is the standard deviation of the county effects is replaced by sdcar. For the sake of completeness, the same example will be carried out. 
+As for the ICAR model, it functions identically to the example above. The only difference is the standard deviation of the county effects is replaced by sdcar. For the sake of completeness, the same example will be carried out. 
 
 $
   hat(beta_0) &= -2.05 \

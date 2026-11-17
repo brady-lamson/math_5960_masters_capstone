@@ -1,6 +1,6 @@
 === American Community Survey
 
-Analysis begins with the ACS equivalent of @census_summary, shown in @acs_summary. What is shown are near identical values, though there is a slight difference. The minimums never reach the same lows, and the maximums never reach the same highs. However, the values throughout the 1st and 3rd quartiles are consistently above those from the census. 
+Analysis begins with the ACS equivalent of @census_summary, shown in @acs_summary. What is shown are nearly identical values, though there is a slight difference. The minimums never reach the same lows, and the maximums never reach the same highs. However, the values throughout the 1st and 3rd quartiles are consistently above those from the census. 
 
 #include "../../tables/acs_df_summary.typ"
 

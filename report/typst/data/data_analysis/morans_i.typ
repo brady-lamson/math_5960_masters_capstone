@@ -11,4 +11,4 @@ From the results in the figure below, both forms of encoding from both datasets 
 
 #include "../../tables/morans_i.typ"
 
-It is worth noting that these tests were primarily used as a diagnostic and a quick check of method feasibility. The risk from incorrectly rejecting the null hypothesis is low, and so additional tests were not performed. What these results show is that an ICAR component in the Fay-Herriot model does have some grounding, it isn't being applied to a response with no evidence of spatial autocorrelation. 
+It is worth noting that these tests were primarily used as a diagnostic and a quick check of method feasibility. The risk from incorrectly rejecting the null hypothesis is low, and so additional tests were not performed. What these results show is that an ICAR component in the Fay-Herriot model does have some grounding. It isn't being applied to a response with no evidence of spatial autocorrelation. 

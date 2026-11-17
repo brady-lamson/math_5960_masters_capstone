@@ -5,5 +5,3 @@
 #include "icar.typ"
 #include "covariates.typ"
 #include "general_info.typ"
-
-

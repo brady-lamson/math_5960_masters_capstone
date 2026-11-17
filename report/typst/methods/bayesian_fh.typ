@@ -1,6 +1,6 @@
 == Bayesian Fay-Herriot Model
 
-Moving to a bayesian structure requires collecting the various distributional components. This is a hierarchical model, so there a few levels to go through. From @fh_y, it is implied that
+Moving to a Bayesian structure requires collecting the various distributional components. This is a hierarchical model, so there are a few levels to go through. From @fh_y, it is implied that
 
 $
   Y_i | theta_i, sigma_i tilde N(theta_i, sigma^2_i)
@@ -12,7 +12,7 @@ $
   p(Y_i | theta_i, sigma_i)  = 1/(sqrt(2 pi) sigma_i) exp(- (Y_i - theta_i)^2 / (2 sigma_i^2))
 $
 
-From this, assuming independent $epsilon_i$, the data distribution is simply the joint distribution of all locations:
+From this, assuming independence across $epsilon_i$, the data distribution is simply the joint distribution of all locations:
 
 #let y_joint_pdf = $product_(i=1)^n p(Y_i | theta_i, sigma_i)$
 
@@ -47,7 +47,7 @@ $
 
 === Prior Distributions
 
-For the priors of $beta_0$ and $#mu_sd$, they were automatically provided defaults by the `brms` package. They are as follows,
+The `brms` package automatically provides weakly informative priors for $beta_0$ and $#mu_sd$ by default. They are as follows,
 
 #math.equation(
   $
@@ -56,7 +56,7 @@ For the priors of $beta_0$ and $#mu_sd$, they were automatically provided defaul
   $
 )<int_priors>
 
-where $t_3^+$ represents the students t distribution with 3 degrees of freedom and a lower bound of 0, otherwise known as a Half-Student-t The full density functions of these priors are not written out for the sake of space. 
+where $t_3^+$ represents the Student's t distribution with 3 degrees of freedom and a lower bound of 0, otherwise known as a Half-Student-t distribution. The full density functions of these priors are not written out for the sake of space. 
 
 === Full Posterior Distribution
 

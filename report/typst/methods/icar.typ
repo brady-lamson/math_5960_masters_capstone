@@ -1,6 +1,6 @@
 == Spatial Random Effects
 
-The traditional Fay-Herriot model assumes the spatial random effects are identically distributed independent random variables from a normal distribution with an unknown variance. This assumption is often inappropriate for the task of small area estimation, where autocorrelation between neighboring areas is expected. There has been a large amount of work historically in spatial variants of the Fay-Herriot model. This project will be using an Intrinsic Conditional Auto-Regressive model (ICAR) for the spatial random effects as used by Porter et al. @PORTER201427. The ICAR component used by the `brms` package is built off the work done by Mitzi Morris @icarMitzi. 
+The traditional Fay-Herriot model assumes the spatial random effects are independent and identically distributed random variables from a normal distribution with an unknown variance. This assumption is often inappropriate for the task of small area estimation, where autocorrelation between neighboring areas is expected. There has been a large amount of work historically in spatial variants of the Fay-Herriot model. This project will be using an Intrinsic Conditional Auto-Regressive model (ICAR) for the spatial random effects as used by Porter et al. @PORTER201427. The ICAR component used by the `brms` package is built off the work done by Mitzi Morris @icarMitzi. 
 
 To facilitate the use of this component, an adjacency matrix was created using the county TIGER shapefiles provided by the Census Bureau alongside the `spdep` package. 
 

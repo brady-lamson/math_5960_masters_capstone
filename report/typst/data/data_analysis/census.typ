@@ -4,7 +4,7 @@ The counties in Iowa vary dramatically in terms of their population and housing.
 
 #include "../../tables/census_df_summary.typ"
 
-The same trend is seen with vacant units, as one would expect places with more houses also have more vacant houses. These variables show an almost perfect correlation $(r = 0.947)$. This relationship does not hold however for vacancy rates which show a mild negative correlation with total housing units $(r = -0.237)$. The highest vacancy rates appear on counties with low total housing units. This is unsurprising as each vacant house contributes more to the vacancy rate than one would in larger counties.
+The same trend is seen with vacant units, as one would expect, places with more houses also have more vacant houses. These variables show an almost perfect correlation $(r = 0.947)$. This relationship does not hold, however, for vacancy rates which show a mild negative correlation with total housing units $(r = -0.237)$. The highest vacancy rates appear in counties with low total housing units. This is unsurprising as each vacant house contributes more to the vacancy rate than one would in larger counties.
 
 #figure(
   grid(

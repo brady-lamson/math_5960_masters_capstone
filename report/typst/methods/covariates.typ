@@ -1,4 +1,4 @@
-== Auxillary covariates
+== Auxiliary covariates
 
 #let betax = $bold(beta)_x$
 #let xbeta = $bold(x)_i^T #betax$
