@@ -1,6 +1,3 @@
-// #import "@preview/grape-suite:4.0.0": seminar-paper
-// #import seminar-paper:
-
 #import "grape-suite-4.0.0/src/seminar-paper.typ" as seminar-paper
 #show figure.caption: set text(style: "italic")
 
@@ -13,11 +10,8 @@
     instructor: none,
     faculty: none,
     institute: none,
-    // seminar: none,
-
     submit-to: none,
     submit-by: none,
-
     semester: [Fall 2026],
     date-format: date => date.display("[month repr:long] [day], [year]"),
 
@@ -34,5 +28,7 @@
 #include "methods/methods.typ"
 #include "results/results.typ"
 #include "conclusion/conclusion.typ"
+#pagebreak()
 #bibliography("references.bib")
+#pagebreak()
 #include "appendix/appendix.typ"
