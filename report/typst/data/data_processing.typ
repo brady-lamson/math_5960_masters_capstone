@@ -34,7 +34,7 @@ $
 
 ==== Logit Transformation of the Standard Error
 
-Yet again, additional work is required for the conversion of the standard error. For this, the delta method was utilized. For reference,
+Yet again, additional work is required for the conversion of the standard error. For this, the delta method was utilized. The definition used was taken from Casella & Berger @deltaBERGER.
 
 #block(stroke: 1pt, inset: 10pt)[
   #definition[Delta Method][
