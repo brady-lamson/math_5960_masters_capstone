@@ -21,9 +21,15 @@ Below are a few of the key packages used for this project.
 |`brms`|Framework for Bayesian modeling|
 |`ggplot2`|Data visualization|
 
-## Report Template
+## Typst Templates
 
-The report for this project was done in typst using a slightly modified version of the template `grape-suite` version 4.0.0. Modifications were made to the `seminar-paper` class to include functionality for an abstract. 
+Both the report and the slide deck were done in the typesetting language called `typst` ([Link](https://typst.app/)), a more modern alternative to LaTex. 
 
-- [Template Link](https://typst.app/universe/package/grape-suite/)
+Both use prebuilt templates that have been slightly modified for the purposes of this project. 
 
+The *report* for this project was done with the template `grape-suite` version 4.0.0. Modifications were made to the `seminar-paper` class to include functionality for an abstract. 
+
+The slides use the template `diatypst`, version 0.10.1. It has been modified to adjust the font size of slide headers. 
+
+- [Grape Suite Link](https://typst.app/universe/package/grape-suite/)
+- [diatypst Link](https://typst.app/universe/package/diatypst)
