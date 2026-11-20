@@ -29,7 +29,7 @@
 )
 
 #show table.cell.where(y:0): set text(weight: "bold")
-#show table.cell.where(x:1): set text(size: 10pt)
+// #show table.cell.where(x:1): set text(size: 10pt)
 // #set table(
 //   fill: (x,y) =>
 //     if x == 0 or y == 0 {gray.lighten(65%)}

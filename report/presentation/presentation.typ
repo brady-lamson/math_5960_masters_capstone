@@ -17,7 +17,8 @@
     title-color: rgb(cu_gold),
     footer-title: "Fay-Herriot Small Area Estimation",
     footer-subtitle: "Bayesian FH with Spatial Random Effects",
-    count: "dot-section",
+    // count: "dot-section",
+    count: "number", // alternatives: 'dot', 'dot-section'
     layout: "medium",
     theme: "full",
     // ratio: 4/3
