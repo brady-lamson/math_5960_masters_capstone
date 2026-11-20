@@ -1,4 +1,4 @@
-#import "grape-suite-4.0.0/src/seminar-paper.typ" as seminar-paper
+#import "../grape-suite-4.0.0/src/seminar-paper.typ" as seminar-paper
 #show figure.caption: set text(style: "italic")
 
 #show: seminar-paper.project.with(
