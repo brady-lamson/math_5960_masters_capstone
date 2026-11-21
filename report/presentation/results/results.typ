@@ -37,7 +37,7 @@
   #set text(size: 8pt)
   #include "../../paper/tables/model_coefficients.typ"
 ]
-= Results - Example Calculations
+== Results - Example Calculations
 
 == Estimate Comparisons: Residuals
 

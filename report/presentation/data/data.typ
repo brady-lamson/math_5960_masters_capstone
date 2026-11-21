@@ -1,14 +1,4 @@
-= Data Sources
-
-== 2020 Decennial Census
-
-Census stuff
-
-== American Community Survey
-
-Stuff
-
-
+#include "data_sources.typ"
 
 = Data Processing
 
