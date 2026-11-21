@@ -1,7 +1,3 @@
 #include "data_sources.typ"
-
-= Data Processing
-
-== American Community Survey
-
+#include "data_processing.typ"
 #include "data_analysis.typ"
