@@ -31,13 +31,6 @@
 #include "../../paper/tables/cdl_covariate_summary.typ"
 ]
 
-== Crop Land Coverage Visual
-
-#figure(
-  image("../../../images/corn_soy_land_coverage.png", width: 90%),
-  caption: "Plot of land coverage per county."
-) <cdl_county_map>
-
 == Housing Vacancy Rates vs Crop Land Coverage
 
 #align(center + horizon)[

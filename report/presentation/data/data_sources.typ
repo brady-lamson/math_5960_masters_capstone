@@ -6,9 +6,9 @@
   #set text(size: 16pt)
   This project pulls from three data sources overall.
 
-  1. Decennial Census (2020)
-  2. American Community Survey (2016-2020)
-  3. USDA NASS Crop Data Layer (2020)
+  1. *Decennial Census* (2020) #v(1em)
+  2. *American Community Survey* (2016-2020) #v(1em)
+  3. *USDA NASS Crop Data Layer* (2020)
 ]
 
 == 2020 Decennial Census
@@ -24,9 +24,9 @@
 == American Community Survey (1)
 
 #align(horizon)[
-  #set text(size: 15pt)
-  - Ongoing survey carried out by the U.S. Census Bureau, sent out every month of every year to a sample of households.
-  - Provides current estimates on a larger set of topics.
+  #set text(size: 17pt)
+  - Ongoing survey carried out by the U.S. Census Bureau, sent out every month of every year to a sample of households. #v(1em)
+  - Provides current estimates on a larger set of topics. #v(1em)
   - Contains a "margin of error" alongside every estimate. 
   
 ]
@@ -35,18 +35,18 @@
 
 #align(horizon)[
   #set text(size: 13pt)
-  - Comes in two forms. *1-year* and *5-year* estimates. 
-  - *1-year* estimates are more current, but less precise and only provide estimates for areas with more than $65,000$ population size. 
-  - *5-year* estimates are less current, but more precise and contain estimates for small areas such as at the county level.
+  - Comes in two forms. *1-year* and *5-year* estimates. #v(1em)
+  - *1-year* estimates are more current, but less precise and only provide estimates for areas with more than $65,000$ population size. #v(1em)
+  - *5-year* estimates are less current, but more precise and contain estimates for small areas such as at the county level. #v(1em)
   - Ratio of vacant housing units / total housing units creates the response for this project.
 ]
 
 == USDA NASS Crop Data Layer (1)
 
 #align(horizon)[
-  #set text(size: 13pt)
-  - Raster image created by USDA National Agricultural Statistics Service
-  - Is an annually produced raster image containing crop classifications for land at a 30x30 meter resolution across the entire country.
+  #set text(size: 15pt)
+  - Raster image created by USDA National Agricultural Statistics Service #v(1em)
+  - Is an annually produced raster image containing crop classifications for land at a 30x30 meter resolution across the entire country. #v(1em)
   - Full file is over 3GB in size, careful processing required.
 ]
 

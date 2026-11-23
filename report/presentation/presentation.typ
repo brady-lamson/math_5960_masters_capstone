@@ -24,11 +24,6 @@
     // ratio: 4/3
 )
 
-#show heading.where(level: 2): it => {
-  set text(size: 10pt)
-  it
-}
-
 #include "intro/intro.typ"
 #include "data/data.typ"
 #include "methods/methods.typ"
@@ -36,7 +31,6 @@
 #include "conclusion/conclusion.typ"
 #include "appendix/appendix.typ"
 
-#show heading.where(level: 2): it => {
-  set text(size: 10pt)
-  it
-}
+= Bibliography
+== Bibliography
+#text(size: 8pt)[#bibliography("../paper/references.bib")]
